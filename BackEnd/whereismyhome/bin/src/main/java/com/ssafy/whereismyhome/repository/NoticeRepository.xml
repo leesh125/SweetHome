@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssafy.whereismyhome.repository.NoticeRepository">
+	
+	<select id="selectNotices" resultMap="NoticeResultMap">
+		select no, subject, content, author, createDate, hit
+		from notice
+	</select>
+	
+	<select id="selectNotice" resultMap="NoticeResultMap" parameterType="int">
+		select no, subject, content, author, createDate, hit
+		from notice
+		where no = #{no}
+	</select>
+	
+	<update id="updateHit" parameterType="int">
+		update notice
+		set hit = hit + 1
+		where no = #{no}
+	</update>
+	
+	<insert id="insertNotice" parameterType="NoticeDto">
+		insert into notice(subject,content,author,createDate,hit) values(#{subject}, #{content}, #{author}, date_format(now(),'%Y-%m-%d %H:%i'), #{hit})
+	</insert>
+	
+	<update id="updateNotice" parameterType="NoticeDto">
+		update notice
+		set subject = #{subject}, content = #{content}, createDate = date_format(now(),'%Y-%m-%d %H:%i')
+		where no = #{no}
+	</update>
+	
+	<delete id="deleteNotice" parameterType="int">
+		delete from notice where no = #{no}
+	</delete>
+	
+	<resultMap type="NoticeDto" id="NoticeResultMap">
+		<id column="no" property="no"/>
+		<result column="subject" property="subject"/>
+		<result column="content" property="content"/>
+		<result column="author" property="author"/>
+		<result column="createDate" property="createDate"/>
+		<result column="hit" property="hit"/>
+	</resultMap>
+	
+</mapper>

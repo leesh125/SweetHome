@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssafy.whereismyhome.repository.AddressRepository">
+    <select id="selectSido" resultType="SidoDto">
+    	select sidocode, sidoname from sidocode
+    </select>
+    
+    <select id="selectGugun" resultType="GugunDto" parameterType="string">
+    	select guguncode, gugunname from guguncode
+    	where guguncode like concat(#{sidoCode}, '%')
+    </select>
+    
+    <select id="selectDong" resultType="DongDto" parameterType="string">
+    	select dongCode, sidoName, gugunName, dongName from dongcode
+    	where dongCode like concat(#{sidoGugunCode}, '%')
+    </select>
+</mapper>

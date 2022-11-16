@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssafy.whereismyhome.repository.InterestRepository">
+
+	<insert id="insertInterest" parameterType="InterestDto">
+		insert into interest(userId, dongCode) values(#{userId}, #{dongCode})
+	</insert>
+
+	<delete id="deleteInterest" parameterType="int">
+		delete from interest where no = #{no}
+	</delete>
+
+	<select id="getInterest" parameterType="int" resultMap="InterestResultMap">
+		select userId, dongCode
+		from interest
+		where no = #{no}
+	</select>
+	
+	<select id="getAllInterest" resultMap="InterestResultMap">
+		select no, userId, dongCode
+		from interest
+	</select>
+	
+	<select id="getAllInterestByUserId" resultMap="InterestResultMap" parameterType="string">
+		select no, dongCode
+		from interest
+		where userId = #{userId}           
+	</select>
+	
+	<resultMap type="InterestDto" id="InterestResultMap">
+		<id column="no" property="no"/>
+		<result column="userId" property="userId"/>
+		<result column="dongCode" property="dongCode"/>
+	</resultMap>
+</mapper>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssafy.whereismyhome.repository.UserRepository">
+	<insert id="insertUser" parameterType="UserDto">
+		insert into users(userId,userName,email,password,phoneNumber) values(#{userId}, #{userName}, #{email}, #{password}, #{phoneNumber})
+	</insert>
+	
+	<update id="updateUser" parameterType="UserDto">
+		update users set userName = #{userName}, email = #{email}, password = #{password}, phoneNumber = #{phoneNumber}
+		where userId = #{userId}
+	</update>
+	
+	<delete id="deleteUser" parameterType="string">
+		delete from users where userId = #{userId}
+	</delete>
+	
+	<select id="selectUser" resultMap="UserResultMap" parameterType="string">
+		select userId, userName, email, password, phoneNumber
+		from users
+		where userId = #{userId}
+	</select>
+	
+	<select id="selectUsers" resultMap="UserResultMap">
+		select userId, userName, email, password, phoneNumber
+		from users
+	</select>
+	
+	<select id="login" resultType="string" parameterType="Map">
+		select userName
+		from users
+		where userId = #{userId}
+		and password = #{password}
+	</select>
+	
+	<resultMap type="UserDto" id="UserResultMap">
+		<id column="userId" property="userId"/>
+		<result column="userName" property="userName"/>
+		<result column="email" property="email"/>
+		<result column="password" property="password"/>
+		<result column="phoneNumber" property="phoneNumber"/>
+	</resultMap>
+</mapper>
