@@ -1,17 +1,15 @@
 <template>
   <div>
     <h1>지도야 떠라</h1>
-    <div id="map" style="width:500px;height:400px;"></div>
+    <div id="map" style="width: 100%; height: 100vh"></div>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'KakaoMap',
+  name: "KakaoMap",
   data() {
-    return {
-      
-    };
+    return {};
   },
 
   mounted() {
@@ -35,11 +33,9 @@ export default {
         level: 5,
       };
       this.map = new kakao.maps.Map(container, options);
-    }
+    },
   },
 };
 </script>
 
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>
