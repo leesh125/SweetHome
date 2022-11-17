@@ -115,27 +115,12 @@ nav{
   height: 4px;
 }
 
-
-.nav-div-right a:before {
-  top: 0;
-  left: 10px;
-  width: 6px;
-  height: 6px;
-}
-
-.nav-div-right a:after {
-  top: 5px;
-  left: 18px;
-  width: 4px;
-  height: 4px;
-}
-
 .nav-div a:nth-child(2):before {
-  background-color: yellow;
+  background-color: #00e2ff;
 }
 
 .nav-div a:nth-child(2):after {
-  background-color: red;
+  background-color: #89ff00;
 }
 
 .nav-div a:nth-child(3):before {
@@ -179,13 +164,13 @@ nav a:hover {
 }
 
 .nav-div-right a:nth-child(1):hover~#indicator2{
-  right: 55%;
+  left: 22%;
   width: 70px;
   background: linear-gradient(130deg, #00e2ff, #89ff00);
 }
 
 .nav-div-right a:nth-child(2):hover~#indicator2 {
-  right: 22%;
+  left: 60%;
   width: 55px;
   background: linear-gradient(130deg, #00e2ff, #89ff00);
 }
@@ -211,8 +196,8 @@ nav a:hover {
 }
 
 .nav-div-right {
-  position: absolute;
-  right: 24%;
+  position: relative;
+  float: right;
   width: 300px;
   height: 75px;
 }
