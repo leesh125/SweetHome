@@ -1,6 +1,5 @@
 <template>
   <div>
-    <h1>지도야 떠라</h1>
     <div id="map" style="width: 100%; height: 100vh"></div>
   </div>
 </template>
@@ -38,4 +37,8 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style scoped>
+
+
+
+</style>

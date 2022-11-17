@@ -1,9 +1,13 @@
 
 <template>
-  <div>
-    <h1>Map Test</h1>
-    <kakao-map></kakao-map>
-  </div>
+  <b-container fluid>
+    <b-row>
+      <b-col cols="1" class="map-comp">asdf</b-col>
+      <b-col class="map-comp">
+        <kakao-map></kakao-map>
+      </b-col>
+    </b-row>
+  </b-container>
 </template>
 
 <script>
@@ -15,3 +19,9 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.map-comp { 
+  padding: 0;
+}
+</style>
