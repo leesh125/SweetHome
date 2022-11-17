@@ -3,7 +3,7 @@
   <b-container fluid>
     <b-row>
       <b-col v-if="sideBarOpen" cols="3" class="map-comp">
-        여기다가 검색이랑 리스트들
+        <apt-info></apt-info>
         <span class="expand-btn" v-if="sideBarOpen" :style="collapse" @click="reverse"></span>
       </b-col>
       <span class="expand-btn" v-if="!sideBarOpen" :style="expand" @click="reverse"></span>
@@ -15,11 +15,14 @@
 </template>
 
 <script>
-import KakaoMap from "../components/map/KakaoMap.vue";
+import KakaoMap from "@/components/map/KakaoMap";
+import AptInfo from "@/components/info/AptInfo";
+
 export default {
   name: 'HomeView',
   components: {
-    KakaoMap
+    KakaoMap,
+    AptInfo
   },
   data() {
     return {
