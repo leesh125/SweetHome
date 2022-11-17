@@ -2,9 +2,13 @@
 <template>
   <b-container fluid>
     <b-row>
-      <b-col cols="1" class="map-comp">asdf</b-col>
+      <b-col v-if="sideBarOpen" cols="3" class="map-comp">
+        여기다가 검색이랑 리스트들
+        <span class="expand-btn" v-if="sideBarOpen" :style="collapse" @click="reverse"></span>
+      </b-col>
+      <span class="expand-btn" v-if="!sideBarOpen" :style="expand" @click="reverse"></span>
       <b-col class="map-comp">
-        <kakao-map></kakao-map>
+        <kakao-map :sideBarOpen="sideBarOpen"></kakao-map>
       </b-col>
     </b-row>
   </b-container>
@@ -16,12 +20,65 @@ export default {
   name: 'HomeView',
   components: {
     KakaoMap
-  }
+  },
+  data() {
+    return {
+      sideBarOpen: true,
+    };
+  },
+  mounted() {
+
+  },
+  methods: {
+    reverse() {
+      this.sideBarOpen = !this.sideBarOpen;
+    }
+  },
+  computed: {
+    collapse() {
+      return {
+        'background-position': '0 0' // testColor 는 예시 변수명
+      }
+    },
+    expand() {
+      return {
+        'background-position': '0 -60px',
+        'left': 0 // testColor 는 예시 변수명
+      }
+    }
+  },
 }
 </script>
 
 <style scoped>
-.map-comp { 
+.map-comp {
   padding: 0;
+}
+
+#sidebar-control {
+  position: relative;
+  width: 3px;
+  top: 50%;
+  z-index: 10000;
+  background-color: grey;
+}
+
+.expand-btn {
+  overflow: hidden;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 25%;
+  margin: auto;
+  width: 22px;
+  height: 54px;
+  font-size: 0;
+  line-height: 0;
+  background: url(//t1.daumcdn.net/localimg/localimages/07/2018/pc/shadow/img_navi.png) no-repeat 0 0;
+  text-indent: -9999px;
+  cursor: pointer;
+  z-index: 10000;
+  width: 28px;
+  height: 66px;
 }
 </style>
