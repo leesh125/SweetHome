@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssafy.whereismyhome.repository.HouseRepository">
+	
+	<select id="selectHouseInfo" parameterType="HouseSearchDto" resultType="HouseInfoDto">
+		select aptCode, aptName, dongCode, dongName, buildYear, jibun, lat, lng
+		from houseinfo
+		<where>
+			<if test="locationCode != null">
+				dongCode like concat(#{locationCode},'%')
+			</if>
+			<if test="searchWord != null">
+				and aptName like concat('%',#{searchWord},'%')
+			</if>
+		</where>
+		ORDER BY aptCode
+		LIMIT ${10 * searchOrder}, 10;
+	</select>
+
+	<select id="selectHouseInfoByAptCode" parameterType="string" resultType="HouseInfoDto">
+		select aptCode, aptName, dongCode, dongName, buildYear, jibun, lat, lng
+		from houseinfo
+		where aptCode = #{aptCode}
+	</select>
+	
+	<resultMap type="HouseDealDto" id="houseDealMap">
+		<id column="no" property="no"/>
+		<result column="dealAmount" property="dealAmount"/>
+		<result column="dealYear" property="dealYear"/>
+		<result column="dealMonth" property="dealMonth"/>
+		<result column="dealDay" property="dealDay"/>
+		<result column="area" property="area"/>
+		<result column="floor" property="floor"/>
+	</resultMap>
+	
+	<resultMap type="HouseInfoDto" id="hosueInfoWithDealMap">
+		<result column="aptName" property="aptName"/>
+		<result column="dongCode" property="dongCode"/>
+		<result column="dongName" property="dongName"/>
+		<result column="jibun" property="jibun"/>
+		<collection property="houseDealDtos" resultMap="houseDealMap"/>
+	</resultMap>
+	
+	<select id="selectHouseDealInfo" parameterType="string" resultMap="hosueInfoWithDealMap">
+		select i.aptCode, i.aptName, i.dongCode, i.dongName, i.jibun, d.no, d.dealAmount, d.dealYear, d.dealMonth, d.dealDay, d.area, d.floor
+		from houseinfo i
+		left join housedeal d
+		on i.aptCode = d.aptCode
+		where i.aptCode = #{aptCode}
+	</select>
+</mapper>
