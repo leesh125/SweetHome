@@ -12,9 +12,35 @@
             <label class="c-form__buttonLabel" for="checkbox">
               <button class="c-form__button" type="button">Search</button>
             </label>
-            <label class="c-form__toggle" for="checkbox" data-title="Search"></label>
+            <label class="c-form__toggle" for="checkbox" data-title="이름으로 검색하기"></label>
           </form>
         </div>
+      </div>
+      <div class="inner-div-selects">
+        <div class="optionbox">
+          <select> 
+            <option>United states</option>
+            <option>India</option>
+            <option>Russia</option>
+            <option>China</option>
+          </select>
+       </div>
+       <div class="optionbox">
+          <select> 
+            <option>United states</option>
+            <option>India</option>
+            <option>Russia</option>
+            <option>China</option>
+          </select>
+       </div>
+       <div class="optionbox">
+          <select> 
+            <option>United states</option>
+            <option>India</option>
+            <option>Russia</option>
+            <option>China</option>
+          </select>
+       </div>
       </div>
     </div>
   </div>
@@ -189,5 +215,49 @@ export default {
   height: 100%;
   width: 5em;
   background-color: #42b983;
+}
+.inner-div-selects{
+  display: flex;
+  justify-content: center;
+  margin-top: 30px;
+}
+
+.optionbox {
+  position: relative;
+  margin-right: 10px;
+}
+
+.optionbox select {
+  background: #42b983;
+  color: #fff;
+  padding: 10px;
+  width: 200px;
+  height: 50px;
+  border: none;
+  font-size: 18px;
+  box-shadow: 0 5px 48px rgb(8, 29, 68);
+  border-radius: 10px 10px 10px 10px;
+  -webkit-appearance: button;
+  outline: none;
+}
+
+.optionbox:before{
+  content: '↓';
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 50px;
+  width: 50px;
+  background: #42b983;
+  text-align: center;
+  line-height: 47px;
+  border-radius: 0px 10px 10px 0px;
+  color:#fff;
+  font-size: 22px;
+  pointer-events: none;
+}
+
+.optionbox:hover:before{  
+  background: #338e65;
 }
 </style>
