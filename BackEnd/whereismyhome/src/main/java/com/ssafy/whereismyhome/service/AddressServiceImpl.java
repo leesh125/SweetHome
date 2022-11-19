@@ -31,5 +31,4 @@ public class AddressServiceImpl implements AddressService{
 	public List<DongDto> getDongList(String sidoCode, String gugunCode) {
 		return addressRepository.selectDong(sidoCode + gugunCode);
 	}
-
 }
