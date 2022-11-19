@@ -53,6 +53,7 @@ export default {
   methods: {
     initMap() {
       const container = document.getElementById("map");
+
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition((position) => {
           var lat = position.coords.latitude,

@@ -9,7 +9,7 @@
       </div>
       <div class="nav-div-right">
         <router-link to="/house"><button @click="bubble" class="bubbly-button">회원가입</button></router-link>
-        <router-link to="/map/test"><button @click="bubble" class="bubbly-button">로그인</button></router-link>
+        <router-link to="/login"><button @click="bubble" class="bubbly-button">로그인</button></router-link>
         <div id="indicator2"></div>
       </div>
     </nav>
