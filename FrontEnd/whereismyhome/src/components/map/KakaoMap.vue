@@ -13,15 +13,31 @@ export default {
     return {
       map: null,
       currentLocationPage: 0,
+      searchWord: "",
+      locationCode: "",
     };
   },
   props: {
     sideBarOpen: {
       type: Boolean,
     },
+    params: {
+      type: Object,
+    },
   },
 
   mounted() {
+    const params = this.$route.params;
+    if (Object.keys(params) != 0) {
+      // 홈화면 검색으로 이동했을 경우(params 존재)
+      this.searchWord = this.$route.params.word;
+      this.locationCode = params.sido + params.gugun + params.dong;
+      console.log("검색어 : " + this.searchWord);
+      console.log("locationCode : " + this.locationCode);
+    } else {
+      //메뉴를 통해 이동했을 경우(params 존재 X)
+    }
+
     if (window.kakao && window.kakao.maps) {
       this.initMap();
     } else {
