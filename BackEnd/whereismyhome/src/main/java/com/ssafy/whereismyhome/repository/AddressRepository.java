@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 import com.ssafy.whereismyhome.dto.DongDto;
 import com.ssafy.whereismyhome.dto.GugunDto;
+import com.ssafy.whereismyhome.dto.LatLngDto;
 import com.ssafy.whereismyhome.dto.SidoDto;
 
 @Mapper
@@ -16,4 +17,6 @@ public interface AddressRepository {
 	List<GugunDto> selectGugun(String sidoCode);
 
 	List<DongDto> selectDong(String sidoGugunCode);
+
+	List<LatLngDto> selectLatLngByDongCode(String dongCode);
 }
