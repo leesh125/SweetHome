@@ -44,6 +44,7 @@ export default {
     if (Object.keys(params) != 0) {
       this.searchWord = this.$route.params.word;
       this.locationCode = params.sido + params.gugun + params.dong;
+
       http.get(`/address/latlng/${this.locationCode}`).then(({ data }) => {
         const location = new kakao.maps.LatLng(data.lat, data.lng);
         this.map.setCenter(location);
@@ -56,6 +57,7 @@ export default {
             lng = position.coords.longitude;
 
           const location = new kakao.maps.LatLng(lat, lng);
+
           this.map.setCenter(location);
 
           this.locationCode = this.getDongCode(lat, lng);
@@ -64,6 +66,7 @@ export default {
     }
 
     /////////////////여기서 부터 지도에 표시할 마커 설정해야됨//////////////////
+
   },
 
   methods: {
@@ -80,6 +83,7 @@ export default {
 
     searchHouse() {
       http.get(`/houses?locationCode=${this.locationCode}&searchOrder=${this.currentLocationPage}`);
+
     },
 
     getDongCode(lat, lng) {
@@ -102,11 +106,9 @@ export default {
         //   .then((aptList) => {
         //     var imageSrc =
         //       "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png";
-
         //     for (let i = 0; aptList.length; i++) {
         //       // 마커 이미지의 이미지 크기 입니다
         //       var imageSize = new kakao.maps.Size(24, 35);
-
         //       // 마커 이미지를 생성합니다
         //       var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
         //       console.log(this);
