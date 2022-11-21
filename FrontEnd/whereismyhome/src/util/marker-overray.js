@@ -4,6 +4,5 @@ export default function (data) {
       <h6>${data.aptName}</h6>
         ${data.address.sidoName + " " + data.address.gugunName + " " + data.address.dongName }
         ${data.jibun}
-        <br />
   </div>`;
 }

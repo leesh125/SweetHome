@@ -169,6 +169,6 @@ export default {
 	@import "../assets/css/animstition.css";
 	@import "../assets/css/hamburger.css";
 	@import "../assets/css/select2.css";
-	@import "../assets/fonts/font-awesome-4.7.0/css/font-awesome.min.css";
+	@import "../assets/fonts/font-awesome-4.7.0/css/font-awesome.min.css"; 
 	@import "../assets/fonts/iconic/css/material-design-iconic-font.min.css";
 </style>
