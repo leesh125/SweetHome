@@ -34,11 +34,7 @@ export default {
 }
 </script>
 
-<<<<<<< HEAD
 <style scoped>
-=======
-<style>
->>>>>>> 9f6993b8fef1f9320c8b18b79bc13513575fdf15
 .main2{
   margin: 180px auto;
 	width: 400px;
