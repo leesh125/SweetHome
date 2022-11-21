@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="inner-div-input">
-      <input class="c-checkbox" type="checkbox" id="checkbox" />
+      <input class="c-checkbox" type="checkbox" id="checkbox" v-model="checkBox" />
       <div class="c-formContainer">
         <form class="c-form" action="">
           <input
@@ -15,7 +15,7 @@
           <!-- <label class="c-form__buttonLabel" for="checkbox"> -->
           <button class="c-form__button" type="button" @click="searchHouse">Search</button>
           <!-- </label> -->
-          <label class="c-form__toggle" for="checkbox" data-title="이름으로 검색하기"></label>
+          <label id="chekboxLabel" class="c-form__toggle" for="checkbox" data-title="이름으로 검색하기"></label>
         </form>
       </div>
     </div>
@@ -63,6 +63,7 @@ export default {
         gugun: "",
         dong: "",
       },
+      checkBox: false
     };
   },
   created() {
@@ -70,6 +71,9 @@ export default {
       console.log(data);
       this.sidos = data;
     });
+  },
+  mounted() {
+    document.querySelector("#chekboxLabel").click();
   },
   methods: {
     selectSido(event) {
@@ -157,7 +161,7 @@ export default {
 
 .c-checkbox:checked + .c-formContainer .c-form__input,
 .c-checkbox:checked + .c-formContainer .c-form__buttonLabel {
-  transition: 0.2s 0.1s;
+  transition: 1s 0.5s;
   visibility: visible;
   opacity: 1;
   transform: scale(1);
@@ -186,7 +190,7 @@ export default {
   position: absolute;
   border-radius: 6.25em;
   background-color: #fff;
-  transition: 0.2s;
+  transition: 1s;
 }
 
 .c-form {
