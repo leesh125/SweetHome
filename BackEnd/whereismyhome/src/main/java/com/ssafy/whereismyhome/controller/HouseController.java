@@ -28,10 +28,11 @@ public class HouseController {
 	@GetMapping
 	public ResponseEntity<?> getHouseInfoList(@RequestParam(required = false) String locationCode,
 			@RequestParam(required = false) String searchWord,
-			@RequestParam int searchOrder) {
+			@RequestParam(required = false) Integer searchOrder) {
 			List<HouseInfoDto> houseInfoList = null;
 			
 		houseInfoList = houseService.getHouseInfo(new HouseSearchDto(locationCode, searchWord, searchOrder));
+		log.info("asdf" + houseInfoList.get(0).getBaseAddressDto());
 		
 		if(!houseInfoList.isEmpty()) {			
 			return ResponseEntity.ok(houseInfoList);

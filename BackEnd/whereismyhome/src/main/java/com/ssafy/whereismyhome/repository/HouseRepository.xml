@@ -3,19 +3,39 @@
 
 <mapper namespace="com.ssafy.whereismyhome.repository.HouseRepository">
 	
-	<select id="selectHouseInfo" parameterType="HouseSearchDto" resultType="HouseInfoDto">
-		select aptCode, aptName, dongCode, dongName, buildYear, jibun, lat, lng
-		from houseinfo
+	<resultMap id="houseInfoMap" type="HouseInfoDto">
+		<id column="aptCode" property="aptCode"/>	
+		<result column="aptName" property="aptName"/>
+		<result column="dongCode" property="dongCode"/>
+		<result column="buildYear" property="buildYear"/>
+		<result column="jibun" property="jibun"/>
+		<result column="lat" property="lat"/>
+		<result column="lng" property="lng"/>
+	    <association property="baseAddressDto" javaType="com.ssafy.whereismyhome.dto.BaseAddressDto">
+			<result column="sidoName" property="sidoName"/>
+			<result column="gugunName" property="gugunName"/>
+			<result column="dongName" property="dongName"/>	    
+	    </association>
+	</resultMap>
+	
+
+	<select id="selectHouseInfo" parameterType="HouseSearchDto" resultMap="houseInfoMap" >
+		select h.aptCode, h.aptName, h.dongCode, h.dongName, h.buildYear, h.jibun, h.lat, h.lng, b.sidoName, b.gugunName, b.dongName
+		from houseinfo h
+		left join baseaddress b
+		on h.dongCode = b.dongCode
 		<where>
 			<if test="locationCode != null">
-				dongCode like concat(#{locationCode},'%')
+				h.dongCode like concat(#{locationCode},'%')
 			</if>
 			<if test="searchWord != null">
 				and aptName like concat('%',#{searchWord},'%')
 			</if>
 		</where>
 		ORDER BY aptCode
-		LIMIT ${10 * searchOrder}, 10;
+		<if test="searchOrder != null">
+			LIMIT ${10 * searchOrder}, 10;		
+		</if>
 	</select>
 
 	<select id="selectHouseInfoByAptCode" parameterType="string" resultType="HouseInfoDto">
