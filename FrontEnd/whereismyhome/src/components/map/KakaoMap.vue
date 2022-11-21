@@ -6,6 +6,9 @@
 
 <script>
 import http from "@/util/http-common";
+import overlay from "@/util/marker-overray"
+
+
 
 export default {
   name: "KakaoMap",
@@ -114,9 +117,8 @@ export default {
 
     },
     getDongCode(lat, lng) {
-      var geocoder = new kakao.maps.services.Geocoder();
-      var callback = (result, status) => {
-        console.log(result)
+      let geocoder = new kakao.maps.services.Geocoder();
+      let callback = (result, status) => {
         if (status === kakao.maps.services.Status.OK) {
           this.locationCode = result[0].code;
         }
@@ -125,28 +127,47 @@ export default {
     },
 
     drawMarkers() {
+
       http.get(`/houses?locationCode=${this.locationCode}&searchWord=${this.searchWord}`)
         .then(({ data }) => {
           return data.map((x) => {
-            return {
+            console.log(x)
+            let apt =  {
               title: x.aptName,
               latlng: new kakao.maps.LatLng(x.lat, x.lng),
+              data: x
             };
+            apt.data.address = x.baseAddressDto;
+            return apt;
           });
         }).then(aptList => {
           var imageSrc = require('@/assets/img/apartment.png');
+          // 마커 이미지의 이미지 크기 입니다
+          let imageSize = new kakao.maps.Size(35, 35);
+          // 마커 이미지를 생성합니다
+          var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
           for (let i = 0; aptList.length; i++) {
-            // 마커 이미지의 이미지 크기 입니다
-            var imageSize = new kakao.maps.Size(35, 35);
-            // 마커 이미지를 생성합니다
-            var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
-            console.log(this);
-            var marker = new kakao.maps.Marker({
+            let marker = new kakao.maps.Marker({
               map: this.map, // 마커를 표시할 지도
-              position: aptList[i].latlng, // 마커를 표시할 위치
-              title: aptList[i].title, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
+              position: aptList[i].latlng,
+              title: aptList[i].title, 
               image: markerImage, // 마커 이미지
             });
+
+            let customOverlay = new kakao.maps.CustomOverlay({
+              content: overlay(aptList[i].data), // 인포윈도우에 표시할 내용
+              position: aptList[i].latlng,
+              yAnchor: 1.4
+            });
+
+            kakao.maps.event.addListener(marker, 'click', () => {
+              customOverlay.setMap(this.map);
+            });
+
+            kakao.maps.event.addListener(this.map, 'click',  () => {
+              customOverlay.setMap(null);
+            });
+
             marker.setMap(this.map);
           }
         }
