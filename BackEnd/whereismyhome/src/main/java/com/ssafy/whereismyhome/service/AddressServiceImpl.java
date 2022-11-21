@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.ssafy.whereismyhome.dto.DongDto;
 import com.ssafy.whereismyhome.dto.GugunDto;
+import com.ssafy.whereismyhome.dto.LatLngDto;
 import com.ssafy.whereismyhome.dto.SidoDto;
 import com.ssafy.whereismyhome.repository.AddressRepository;
 
@@ -32,4 +33,22 @@ public class AddressServiceImpl implements AddressService{
 		return addressRepository.selectDong(sidoCode + gugunCode);
 	}
 
+	@Override
+	public LatLngDto getLatLng(String locationCode) {
+		List<LatLngDto> latLngs = addressRepository.selectLatLngByDongCode(locationCode);
+		int size = latLngs.size();
+		if(size == 1) {
+			return latLngs.get(0);
+		}
+		
+		double latSum = 0.0d;
+		double lngSum = 0.0d;
+		for(LatLngDto latLng : latLngs) {
+			
+			latSum += Double.parseDouble(latLng.getLat());
+			lngSum += Double.parseDouble(latLng.getLng());
+		}
+		
+		return new LatLngDto(locationCode, String.valueOf(latSum/ size), String.valueOf(lngSum/ size));
+	}
 }

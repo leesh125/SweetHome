@@ -2,6 +2,8 @@ package com.ssafy.whereismyhome.controller;
 
 import java.util.List;
 
+import javax.websocket.server.PathParam;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.whereismyhome.dto.DongDto;
 import com.ssafy.whereismyhome.dto.GugunDto;
+import com.ssafy.whereismyhome.dto.LatLngDto;
 import com.ssafy.whereismyhome.dto.SidoDto;
 import com.ssafy.whereismyhome.service.AddressService;
 
@@ -48,6 +51,17 @@ public class AddressController {
 		if(dongs != null) {
 			return ResponseEntity.ok(dongs);
 		} else {
+			return ResponseEntity.noContent().build();
+		}
+	}
+	
+	@GetMapping("/latlng/{dongCode}")
+	public ResponseEntity<Object> getLatLng(@PathVariable String dongCode){
+		LatLngDto latLng = addressService.getLatLng(dongCode);
+		if(latLng != null) {
+			return ResponseEntity.ok(latLng);
+		}
+		else {
 			return ResponseEntity.noContent().build();
 		}
 	}
