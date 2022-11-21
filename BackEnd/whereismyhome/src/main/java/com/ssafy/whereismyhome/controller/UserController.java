@@ -98,11 +98,12 @@ public class UserController {
 		HashMap<String, String> map = new HashMap<>();
 		if(userId != null) map.put("userId", userId);
 		if(password != null) map.put("password", password);
-		String userName = userService.login(map);
-		if(userName != null) {
+		String name = userService.login(map);
+		System.out.println(name);
+		if(name != null) {
 			session.setAttribute("userId", userId);
-			session.setAttribute("userName", userName);
-			return ResponseEntity.ok().body(userName);
+			session.setAttribute("name", name);
+			return ResponseEntity.ok().body(name);
 		}
 		return ResponseEntity.notFound().build();
 	}
