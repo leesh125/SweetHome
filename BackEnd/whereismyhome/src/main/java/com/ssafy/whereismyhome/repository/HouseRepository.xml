@@ -15,7 +15,9 @@
 			</if>
 		</where>
 		ORDER BY aptCode
-		LIMIT ${10 * searchOrder}, 10;
+		<if test="searchOrder != null">
+			LIMIT ${10 * searchOrder}, 10;		
+		</if>
 	</select>
 
 	<select id="selectHouseInfoByAptCode" parameterType="string" resultType="HouseInfoDto">

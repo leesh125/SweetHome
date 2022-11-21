@@ -15,4 +15,10 @@
     	select dongCode, sidoName, gugunName, dongName from dongcode
     	where dongCode like concat(#{sidoGugunCode}, '%')
     </select>
+    
+    <select id="selectLatLngByDongCode" resultType="LatLngDto" parameterType="string">
+    	select dongCode, lat, lng
+    	from baseaddress
+    	where dongCode like concat(#{locationCode}, '%')
+    </select>
 </mapper>

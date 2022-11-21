@@ -15,6 +15,8 @@ export default {
       currentLocationPage: 0,
       searchWord: "",
       locationCode: "",
+      currLat: "",
+      currLng: ""
     };
   },
   props: {
@@ -25,12 +27,15 @@ export default {
       type: Object,
     },
   },
-
+  created () {
+    
+  },
   mounted() {
     //맵 생성
     if (window.kakao && window.kakao.maps) {
       this.initMap();
     } else {
+      console.log("여기를 들어온다고!??")
       const script = document.createElement("script");
       /* global kakao */
       script.onload = () => kakao.maps.load(this.initMap);
@@ -39,34 +44,9 @@ export default {
       document.head.appendChild(script);
     }
 
-    const params = this.$route.params;
-    // 홈화면 검색으로 이동했을 경우(params 존재)
-    if (Object.keys(params) != 0) {
-      this.searchWord = this.$route.params.word;
-      this.locationCode = params.sido + params.gugun + params.dong;
+ 
 
-      http.get(`/address/latlng/${this.locationCode}`).then(({ data }) => {
-        const location = new kakao.maps.LatLng(data.lat, data.lng);
-        this.map.setCenter(location);
-      });
-    } else {
-      //네비게이션 바를 통해 이동했을 경우(params 존재 X)
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition((position) => {
-          var lat = position.coords.latitude,
-            lng = position.coords.longitude;
-
-          const location = new kakao.maps.LatLng(lat, lng);
-
-          this.map.setCenter(location);
-
-          this.locationCode = this.getDongCode(lat, lng);
-        });
-      }
-    }
-
-    /////////////////여기서 부터 지도에 표시할 마커 설정해야됨//////////////////
-
+    ///////////////여기서 부터 지도에 표시할 마커 설정해야됨//////////////////
   },
 
   methods: {
@@ -79,60 +59,113 @@ export default {
         level: 3,
       };
       this.map = new kakao.maps.Map(container, options);
+
+      kakao.maps.event.addListener(this.map, 'dragend', () => {
+        var latlng = this.map.getCenter(); 
+        this.currLat = latlng.getLat();
+        this.currLng = latlng.getLng();
+      });
+
+
+
+      const params = this.$route.params;
+      // 홈화면 검색으로 이동했을 경우(params 존재)
+      if (Object.keys(params) != 0) {
+        this.searchWord = this.$route.params.word;
+        this.locationCode = params.sido + params.gugun + params.dong;
+
+        http.get(`/address/latlng/${this.locationCode}`).then(({ data }) => {
+          this.currLat = data.lat;
+          this.currLng = data.lng;
+          const location = new kakao.maps.LatLng(this.currLat, this.currLng);
+          this.map.setCenter(location);
+        });
+      } else {
+        //네비게이션 바를 통해 이동했을 경우(params 존재 X)
+        console.log("from nav bar ...")
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition((position) => {
+            var lat = position.coords.latitude,
+              lng = position.coords.longitude;
+
+            this.currLat = position.coords.latitude;
+            this.currLng = position.coords.longitude;
+            const location = new kakao.maps.LatLng(lat, lng);
+
+            this.map.setCenter(location);
+            
+            var marker = new kakao.maps.Marker({
+              map: this.map, // 마커를 표시할 지도
+              position: location, // 마커를 표시할 위치
+              title: "현재 위치", // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
+            });
+            marker.setMap(this.map);
+
+
+
+            this.getDongCode(lat, lng);
+          }, (err) => {console.log(err)},{enableHighAccuracy:true});
+        }
+      }
     },
 
     searchHouse() {
       http.get(`/houses?locationCode=${this.locationCode}&searchOrder=${this.currentLocationPage}`);
 
     },
-
     getDongCode(lat, lng) {
       var geocoder = new kakao.maps.services.Geocoder();
       var callback = (result, status) => {
+        console.log(result)
         if (status === kakao.maps.services.Status.OK) {
-          console.log("지역 명칭 : " + result[0].address_name);
-          console.log("행정구역 코드 : " + result[0].code);
+          this.locationCode = result[0].code;
         }
-        return result[0].code;
-        // Http.get(`/houses?locationCode=${result[0].code}&searchOrder=${this.currentLocationPage}`)
-        //   .then(({ data }) => {
-        //     return data.map((x) => {
-        //       return {
-        //         title: x.aptName,
-        //         latlng: new kakao.maps.LatLng(x.lat, x.lng),
-        //       };
-        //     });
-        //   })
-        //   .then((aptList) => {
-        //     var imageSrc =
-        //       "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png";
-        //     for (let i = 0; aptList.length; i++) {
-        //       // 마커 이미지의 이미지 크기 입니다
-        //       var imageSize = new kakao.maps.Size(24, 35);
-        //       // 마커 이미지를 생성합니다
-        //       var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
-        //       console.log(this);
-        //       var marker = new kakao.maps.Marker({
-        //         map: this.map, // 마커를 표시할 지도
-        //         position: aptList[i].latlng, // 마커를 표시할 위치
-        //         title: aptList[i].title, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
-        //         image: markerImage, // 마커 이미지
-        //       });
-        //       marker.setMap(this.map);
-        //     }
-        //   });
       };
-
       geocoder.coord2RegionCode(lng, lat, callback);
     },
+
+    drawMarkers() {
+      http.get(`/houses?locationCode=${this.locationCode}&searchWord=${this.searchWord}`)
+        .then(({ data }) => {
+          return data.map((x) => {
+            return {
+              title: x.aptName,
+              latlng: new kakao.maps.LatLng(x.lat, x.lng),
+            };
+          });
+        }).then(aptList => {
+          var imageSrc = require('@/assets/img/apartment.png');
+          for (let i = 0; aptList.length; i++) {
+            // 마커 이미지의 이미지 크기 입니다
+            var imageSize = new kakao.maps.Size(35, 35);
+            // 마커 이미지를 생성합니다
+            var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
+            console.log(this);
+            var marker = new kakao.maps.Marker({
+              map: this.map, // 마커를 표시할 지도
+              position: aptList[i].latlng, // 마커를 표시할 위치
+              title: aptList[i].title, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
+              image: markerImage, // 마커 이미지
+            });
+            marker.setMap(this.map);
+          }
+        }
+      );
+    }
   },
 
   watch: {
     sideBarOpen() {
       this.map.relayout();
+      this.map.setCenter(new kakao.maps.LatLng(this.currLat, this.currLng));
     },
+    locationCode() {
+      this.drawMarkers();
+    }
   },
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+
+</style>

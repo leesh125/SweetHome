@@ -28,7 +28,7 @@ public class HouseController {
 	@GetMapping
 	public ResponseEntity<?> getHouseInfoList(@RequestParam(required = false) String locationCode,
 			@RequestParam(required = false) String searchWord,
-			@RequestParam int searchOrder) {
+			@RequestParam(required = false) Integer searchOrder) {
 			List<HouseInfoDto> houseInfoList = null;
 			
 		houseInfoList = houseService.getHouseInfo(new HouseSearchDto(locationCode, searchWord, searchOrder));
