@@ -15,11 +15,11 @@ export default {
   data() {
     return {
       map: null,
-      currentLocationPage: 0,
       searchWord: "",
       locationCode: "",
       currLat: "",
-      currLng: ""
+      currLng: "",
+      regionCode: ""
     };
   },
   props: {
@@ -55,7 +55,6 @@ export default {
   methods: {
     initMap() {
       const container = document.getElementById("map");
-
       const location = new kakao.maps.LatLng(37.4812845080678, 126.952713197762);
       const options = {
         center: location,
@@ -127,7 +126,6 @@ export default {
     },
 
     drawMarkers() {
-
       http.get(`/houses?locationCode=${this.locationCode}&searchWord=${this.searchWord}`)
         .then(({ data }) => {
           return data.map((x) => {
