@@ -37,7 +37,7 @@
 							Don’t have an account?
 						</span>
 	
-						<a class="txt2" href="#">
+						<a class="txt2" @click="moveRegister" href="#">
 							Sign Up
 						</a>
 					</div>
@@ -135,17 +135,9 @@ export default {
 						text: '아이디 혹은 비밀번호가 일치하지 않습니다.',
 					})
 				);
-				
-				
-				
-			} else {
-				// event.preventDefault();
 			}
 			return this.check;
-			
 		},
-		
-		
 		hideValidate(input) {
 			var thisAlert = $(input).parent();
 
@@ -157,7 +149,9 @@ export default {
 			} else {
 				this.showPass = 0;
 			}
-		}
+		}, moveRegister() {
+			this.$router.push("/register");
+		},
 	},
 };
 </script>
