@@ -6,6 +6,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+
     search: {
       word: "",
       sidoCode: "",
@@ -13,6 +14,7 @@ export default new Vuex.Store({
       dongCode: "",
     },
     searchHouseList:[],
+
     locationCode: "",
     currLat: "37.4812845080678",
     currLng: "126.952713197762",

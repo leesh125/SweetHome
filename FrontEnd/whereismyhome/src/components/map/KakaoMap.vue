@@ -19,6 +19,7 @@ export default {
       locationCode: "",
       currLat: "",
       currLng: "",
+
       regionCode: "",
       currMarkers: [],
       currOverlays: [],
