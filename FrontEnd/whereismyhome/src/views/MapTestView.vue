@@ -1,4 +1,3 @@
-
 <template>
   <b-container fluid>
     <b-row>
@@ -19,38 +18,36 @@ import KakaoMap from "@/components/map/KakaoMap";
 import AptInfo from "@/components/info/AptInfo";
 
 export default {
-  name: 'HomeView',
+  name: "HomeView",
   components: {
     KakaoMap,
-    AptInfo
+    AptInfo,
   },
   data() {
     return {
       sideBarOpen: true,
     };
   },
-  mounted() {
-
-  },
+  mounted() {},
   methods: {
     reverse() {
       this.sideBarOpen = !this.sideBarOpen;
-    }
+    },
   },
   computed: {
     collapse() {
       return {
-        'background-position': '0 0' // testColor 는 예시 변수명
-      }
+        "background-position": "0 0", // testColor 는 예시 변수명
+      };
     },
     expand() {
       return {
-        'background-position': '0 -60px',
-        'left': 0 // testColor 는 예시 변수명
-      }
-    }
+        "background-position": "0 -60px",
+        left: 0, // testColor 는 예시 변수명
+      };
+    },
   },
-}
+};
 </script>
 
 <style scoped>
@@ -77,7 +74,8 @@ export default {
   height: 54px;
   font-size: 0;
   line-height: 0;
-  background: url(//t1.daumcdn.net/localimg/localimages/07/2018/pc/shadow/img_navi.png) no-repeat 0 0;
+  background: url(//t1.daumcdn.net/localimg/localimages/07/2018/pc/shadow/img_navi.png) no-repeat 0
+    0;
   text-indent: -9999px;
   cursor: pointer;
   z-index: 10000;

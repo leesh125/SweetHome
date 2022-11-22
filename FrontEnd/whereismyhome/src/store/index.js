@@ -13,7 +13,7 @@ export default new Vuex.Store({
       gugunCode: "",
       dongCode: "",
     },
-    searchHouseList:[],
+    searchHouseList: [],
 
     locationCode: "",
     currLat: "37.4812845080678",
@@ -54,13 +54,13 @@ export default new Vuex.Store({
     }
   },
   actions: {
-    searchHouse({commit, getters},searchElement) {
+    searchHouse({ commit, getters }, searchElement) {
       commit('setSearchElement', searchElement);
       http.get(`/houses?locationCode=${getters.locationCode}&searchWord=${getters.searchWord}`)
         .then(({ data }) => {
           commit('setSearchHouseList', data);
           commit('setLocationCode', getters.locationCode);
-      })
+        })
     }
   },
   modules: {

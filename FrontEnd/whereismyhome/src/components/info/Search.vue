@@ -3,7 +3,7 @@
     <b-row>
       <b-col>
         <b-input-group class="mt-3">
-          <b-form-input v-model.lazy="$store.state.search.searchWord"></b-form-input>
+          <b-form-input v-model.lazy="search.word"></b-form-input>
           <b-input-group-append>
             <b-button variant="outline-success" @click="searchHouse">search</b-button>
           </b-input-group-append>
@@ -12,27 +12,25 @@
     </b-row>
 
     <b-row>
-        <select class="col-sm-4 mt-2" @change="selectSido($event)">
-          <option value="" selected>시도 선택</option>
-          <option v-for="sido in sidos" :key="sido.sidoCode" :value="sido.sidoCode">
-            {{ sido.sidoName }}
-          </option>
-        </select>
-        <select class="col-sm-4 mt-2" @change="selectGugun($event)">
-          <option value="" selected>구군 선택</option>
-          <option v-for="gugun in guguns" :key="gugun.gugunCode" :value="gugun.gugunCode">
-            {{ gugun.gugunName }}
-          </option>
-        </select>
-        <select class="col-sm-4 mt-2" @change="selectDong($event)">
-          <option value="" selected>동 선택</option>
-          <option v-for="dong in dongs" :key="dong.dongCode" :value="dong.dongCode">
-            {{ dong.dongName }}
-          </option>
-        </select>
+      <select class="col-sm-4 mt-2" @change="selectSido($event)">
+        <option value="" selected>시도 선택</option>
+        <option v-for="sido in sidos" :key="sido.sidoCode" :value="sido.sidoCode">
+          {{ sido.sidoName }}
+        </option>
+      </select>
+      <select class="col-sm-4 mt-2" @change="selectGugun($event)">
+        <option value="" selected>구군 선택</option>
+        <option v-for="gugun in guguns" :key="gugun.gugunCode" :value="gugun.gugunCode">
+          {{ gugun.gugunName }}
+        </option>
+      </select>
+      <select class="col-sm-4 mt-2" @change="selectDong($event)">
+        <option value="" selected>동 선택</option>
+        <option v-for="dong in dongs" :key="dong.dongCode" :value="dong.dongCode">
+          {{ dong.dongName }}
+        </option>
+      </select>
     </b-row>
-  
-
   </b-container>
 </template>
 
@@ -40,7 +38,7 @@
 import http from "@/util/http-common";
 
 export default {
-  name: 'AptSearch',
+  name: "AptSearch",
 
   data() {
     return {
@@ -51,22 +49,19 @@ export default {
         word: "",
         sidoCode: "",
         gugunCode: "",
-        dongCode: ""
-      }
+        dongCode: "",
+      },
     };
   },
-  created () {
+  created() {
     http.get("/address").then(({ data }) => {
       console.log(data);
       this.sidos = data;
     });
   },
-  mounted() {
-    
-  },
+  mounted() {},
   methods: {
     selectSido(event) {
-
       this.guguns = [];
       this.dongs = [];
       this.search.gugunCode = "";
@@ -99,21 +94,19 @@ export default {
     selectDong(event) {
       let dongCode = event.target.value;
       this.search.dongCode = dongCode.substr(5);
-
     },
     searchHouse() {
       console.log("call searchHouse In Map ....");
-      this.$store.dispatch('searchHouse', this.search);
+      this.$store.dispatch("searchHouse", this.search);
     },
   },
-
 };
 </script>
 
-<style  scoped>
+<style scoped>
 .selectbox {
   margin-top: 10px;
-  padding:10px;
+  padding: 10px;
 }
 .optionbox {
   position: relative;
