@@ -32,9 +32,9 @@ public class HouseController {
 			List<HouseInfoDto> houseInfoList = null;
 			
 		houseInfoList = houseService.getHouseInfo(new HouseSearchDto(locationCode, searchWord, searchOrder));
-		log.info("asdf" + houseInfoList.get(0).getBaseAddressDto());
 		
 		if(!houseInfoList.isEmpty()) {			
+			log.info("asdf" + houseInfoList.get(0).getBaseAddressDto());
 			return ResponseEntity.ok(houseInfoList);
 		}else {
 			return ResponseEntity.noContent().build();
