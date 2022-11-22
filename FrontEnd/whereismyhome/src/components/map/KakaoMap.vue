@@ -19,7 +19,9 @@ export default {
       locationCode: "",
       currLat: "",
       currLng: "",
-      regionCode: ""
+      regionCode: "",
+      currMarkers: [],
+      currOverlays: [],
     };
   },
   props: {
@@ -46,10 +48,8 @@ export default {
         "//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=b482a1a4c934ed9046dae64f612a7a87&libraries=services";
       document.head.appendChild(script);
     }
-
- 
-
     ///////////////여기서 부터 지도에 표시할 마커 설정해야됨//////////////////
+    
   },
 
   methods: {
@@ -102,74 +102,82 @@ export default {
               title: "현재 위치", // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
             });
             marker.setMap(this.map);
-
-
-
-            this.getDongCode(lat, lng);
           }, (err) => {console.log(err)},{enableHighAccuracy:true});
         }
       }
     },
-
-    searchHouse() {
-      http.get(`/houses?locationCode=${this.locationCode}&searchOrder=${this.currentLocationPage}`);
-
-    },
     getDongCode(lat, lng) {
       let geocoder = new kakao.maps.services.Geocoder();
-      let callback = (result, status) => {
+      let callback = function(result, status){
         if (status === kakao.maps.services.Status.OK) {
           this.locationCode = result[0].code;
         }
       };
       geocoder.coord2RegionCode(lng, lat, callback);
     },
+    initMarkers() {
+      for (const marker of this.currMarkers) {
+        marker.setMap(null);
+      }
+      for (const overlay of this.currOverlays) {
+        overlay.setMap(null);
+      }
+      this.currMarkers = [];
+      this.currOverlays = [];
+    },
+    drawMarkers(houseList) {
+      this.initMarkers();
+      if (houseList.length == 0) {
+        return;
+      }
 
-    drawMarkers() {
-      http.get(`/houses?locationCode=${this.locationCode}&searchWord=${this.searchWord}`)
-        .then(({ data }) => {
-          return data.map((x) => {
-            console.log(x)
-            let apt =  {
-              title: x.aptName,
-              latlng: new kakao.maps.LatLng(x.lat, x.lng),
-              data: x
-            };
-            apt.data.address = x.baseAddressDto;
-            return apt;
-          });
-        }).then(aptList => {
-          var imageSrc = require('@/assets/img/apartment.png');
-          // 마커 이미지의 이미지 크기 입니다
-          let imageSize = new kakao.maps.Size(35, 35);
-          // 마커 이미지를 생성합니다
-          var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
-          for (let i = 0; aptList.length; i++) {
-            let marker = new kakao.maps.Marker({
-              map: this.map, // 마커를 표시할 지도
-              position: aptList[i].latlng,
-              title: aptList[i].title, 
-              image: markerImage, // 마커 이미지
-            });
+      const aptList = houseList.map((x) => {
+        let apt = {
+          title: x.aptName,
+          latlng: new kakao.maps.LatLng(x.lat, x.lng),
+          data: x
+        };
+        apt.data.address = x.baseAddressDto;
+        return apt;
+      });
+          
+      var imageSrc = require('@/assets/img/apartment.png');
+      // 마커 이미지의 이미지 크기 입니다
+      let imageSize = new kakao.maps.Size(35, 35);
+      // 마커 이미지를 생성합니다
+      let markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
+      for (let i = 0; i < aptList.length; i++) {
+        let marker = new kakao.maps.Marker({
+          map: this.map, // 마커를 표시할 지도
+          position: aptList[i].latlng,
+          title: aptList[i].title, 
+          image: markerImage, // 마커 이미지
+        });
 
-            let customOverlay = new kakao.maps.CustomOverlay({
-              content: overlay(aptList[i].data), // 인포윈도우에 표시할 내용
-              position: aptList[i].latlng,
-              yAnchor: 1.4
-            });
+        const customOverlay = new kakao.maps.CustomOverlay({
+          content: overlay(aptList[i].data), // 인포윈도우에 표시할 내용
+          position: aptList[i].latlng,
+          yAnchor: 1.4,
+          zIndex: 310000
+        });
 
-            kakao.maps.event.addListener(marker, 'click', () => {
-              customOverlay.setMap(this.map);
-            });
+        kakao.maps.event.addListener(marker, 'click', () => {
+          customOverlay.setMap(this.map);
+        });
 
-            kakao.maps.event.addListener(this.map, 'click',  () => {
-              customOverlay.setMap(null);
-            });
+        kakao.maps.event.addListener(this.map, 'click',  () => {
+          customOverlay.setMap(null);
+        });
 
-            marker.setMap(this.map);
-          }
-        }
-      );
+        marker.setMap(this.map);
+        this.currMarkers.push(marker);
+        this.currOverlays.push(customOverlay);
+      }
+    }
+  },
+  computed: {
+    searchHouseList() {
+      return this.$store.getters.searchHouseList;
     }
   },
 
@@ -178,8 +186,15 @@ export default {
       this.map.relayout();
       this.map.setCenter(new kakao.maps.LatLng(this.currLat, this.currLng));
     },
-    locationCode() {
-      this.drawMarkers();
+    searchHouseList(newValue) {
+      this.drawMarkers(newValue);
+      this.locationCode = this.$store.getters.locationCode;
+      http.get(`/address/latlng/${this.locationCode}`).then(({ data }) => {
+          this.currLat = data.lat;
+          this.currLng = data.lng;
+          const location = new kakao.maps.LatLng(this.currLat, this.currLng);
+          this.map.setCenter(location);
+        });
     }
   },
 };
