@@ -1,21 +1,22 @@
 <template>
   <div id="app">
+    <div class="nav-border-bottom"></div>
     <nav>
       <div class="nav-div">
         <router-link to="/">HappyHouse</router-link>
-        <router-link to="/house">아파트 매매</router-link>
+        <router-link to="/notice">공지사항</router-link>
         <router-link to="/map/test">Map Test</router-link>
         <div id="indicator"></div>
       </div>
       <div class="nav-div-right" v-if="isLogin">
-        <a><button @click="[bubble(), logout()]" class="bubbly-button isLoginBtn">로그아웃</button></a>
-        <router-link to="/login"><button @click="bubble" class="bubbly-button isLoginBtn">내정보</button></router-link>
+        <a><button @click="[bubble(), logout()]" class="bubbly-button isLoginBtn" style="z-index: -1;">로그아웃</button></a>
+        <router-link to="/login"><button @click="bubble" class="bubbly-button isLoginBtn" style="z-index: -1;">내정보</button></router-link>
         <div id="indicator2"></div>
         <span class="welcome-span"><b style="color: #42B983;">{{ name }}</b>님 환영합니다.</span>
       </div>
       <div class="nav-div-right" v-else>
-        <router-link to="/register"><button @click="bubble" class="bubbly-button">회원가입</button></router-link>
-        <router-link to="/login"><button @click="bubble" class="bubbly-button">로그인</button></router-link>
+        <router-link to="/register"><button @click="bubble" class="bubbly-button" style="z-index: -1;">회원가입</button></router-link>
+        <router-link to="/login"><button @click="bubble" class="bubbly-button" style="z-index: -1;">로그인</button></router-link>
         <div id="indicator2"></div>
       </div>
     </nav>
@@ -108,10 +109,19 @@ export default {
   color: #2c3e50;
 }
 
+.nav-border-bottom{
+  position: absolute;
+  top: 75px;
+  width: 100%;
+  height: 1.5px;
+  background-color: #e1e1e1;
+}
+
 nav{
   min-height: 75px;
   width: 1000px;
   margin: auto;
+  /* border-bottom: 1.5px solid #e1e1e1; */
 }
 
 .nav-div {
