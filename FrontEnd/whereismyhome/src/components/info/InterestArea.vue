@@ -1,47 +1,69 @@
 <template>
 <b-container fluid>
     <b-row>
-      <b-col cols="6">
-        <b-button class="mt-2" variant="outline-primary">관심지역으로 추가</b-button>
-      </b-col>
-      <b-col cols="6">
-        <b-button class="mt-2" variant="outline-primary">선택한 관심지역 삭제</b-button>
+      <select class="col-sm-7 mt-2">
+        <option value="" selected>관심지역선택</option>
+        <option v-for="interest in interests" :value="interest.dongCode" :key="interest.no">
+          {{interest.address.sidoName}} {{interest.address.gugunName}} {{interest.address.dongName}}
+        </option>
+      </select>
+      <b-col cols="5">
+        <b-button class="mt-2" variant="outline-primary" @click="addInterest">관심지역 추가</b-button>
       </b-col>
     </b-row>
     <b-row>
-        <select class="col-sm-12 mt-2">
-              <option value="" selected>관심지역선택</option>
-        </select>
+
     </b-row>
   </b-container>
 </template>
 
 <script>
 import http from "@/util/http-common";
+import eventBus from "@/components/EventBus.vue"
 
 export default {
   name: 'InterestArea',
 
   data() {
     return {
-      interests:[]
     };
   },
   created() {
     const userId = 'ssafy@ssafy.com'
     http.get(`/interest/${userId}`)
       .then(({ data }) => {
-        console.log(data);
+        this.$store.commit("setInterests", data);
       })
-    ;
+      ;
+
+    eventBus.$on("addInterest", (interest) => {
+      const i = {
+        userId: userId,
+        dongCode: interest.search.dongCode,
+      }
+
+      this.$store.dispatch("addInterest", i);
+    });
   },
   mounted() {
     
   },
 
   methods: {
-    
+    addInterest() {
+      eventBus.$emit("getCurrentAddress");
+    }
   },
+  computed: {
+    interests() {
+      return this.$store.state.interests; 
+    }
+  },
+  watch: {
+    interests(newValue) {
+      this.interests = newValue;
+    }
+  }
 };
 </script>
 
