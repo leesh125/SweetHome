@@ -40,6 +40,7 @@ const routes = [
     path: '/detail',
     name: 'detail',
     component: () => import(/* webpackChunkName: "about" */ '../views/NoticeDetailView.vue'),
+    props: true
   },
 ]
 
