@@ -25,10 +25,10 @@
 		left join baseaddress b
 		on h.dongCode = b.dongCode
 		<where>
-			<if test="locationCode != null">
+			<if test="locationCode != null and locationCode != '' ">
 				h.dongCode like concat(#{locationCode},'%')
 			</if>
-			<if test="searchWord != null">
+			<if test="searchWord != null and locationCode != ''">
 				and aptName like concat('%',#{searchWord},'%')
 			</if>
 		</where>

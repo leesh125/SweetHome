@@ -23,14 +23,27 @@
 	</select>
 	
 	<select id="getAllInterestByUserId" resultMap="InterestResultMap" parameterType="string">
-		select no, dongCode
-		from interest
+		select i.no, i.dongCode, b.sidoName, b.gugunName, b.dongName
+		from interest i
+		left join baseaddress b
+		on i.dongCode = b.dongCode
 		where userId = #{userId}           
 	</select>
+	
+	<resultMap type="com.ssafy.whereismyhome.dto.BaseAddressDto" id="baseAddressMap">
+		<result column="sidoName" property="sidoName"/>
+		<result column="gugunName" property="gugunName"/>
+		<result column="dongName" property="dongName"/>	 		
+	</resultMap>
 	
 	<resultMap type="InterestDto" id="InterestResultMap">
 		<id column="no" property="no"/>
 		<result column="userId" property="userId"/>
 		<result column="dongCode" property="dongCode"/>
+		<association property="address" javaType="BaseAddressDto">
+			<result column="sidoName" property="sidoName"/>
+			<result column="gugunName" property="gugunName"/>
+			<result column="dongName" property="dongName"/>
+		</association>
 	</resultMap>
 </mapper>

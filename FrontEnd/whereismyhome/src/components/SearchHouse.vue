@@ -59,9 +59,9 @@ export default {
       dongs: [],
       search: {
         word: "",
-        sido: "",
-        gugun: "",
-        dong: "",
+        sidoCode: "",
+        gugunCode: "",
+        dongCode: "",
       },
       checkBox: false
     };
@@ -79,42 +79,43 @@ export default {
     selectSido(event) {
       this.guguns = [];
       this.dongs = [];
-      this.search.gugun = "";
-      this.search.dong = "";
+      this.search.gugunCode = "";
+      this.search.dongCode = "";
 
       let sidoCode = event.target.value; // 선택한 시,도
       if (sidoCode == "") {
-        this.search.sido = "";
+        this.search.sidoCode = "";
         return;
       }
-      this.search.sido = sidoCode.substr(0, 2);
-      http.get(`/address/${this.search.sido}`).then(({ data }) => {
+      this.search.sidoCode = sidoCode.substr(0, 2);
+      http.get(`/address/${this.search.sidoCode}`).then(({ data }) => {
         this.guguns = data;
       });
     },
     selectGugun(event) {
-      this.search.dong = "";
+      this.search.dongCode = "";
       this.dongs = [];
 
       let gugunCode = event.target.value;
       if (gugunCode == "") {
-        this.search.gugun = "";
+        this.search.gugunCode = "";
         this.dongs = [];
         return;
       }
-      this.search.gugun = gugunCode.substr(2, 3);
-      http.get(`/address/${this.search.sido}/${this.search.gugun}`).then(({ data }) => {
+      this.search.gugunCode = gugunCode.substr(2, 3);
+      http.get(`/address/${this.search.sidoCode}/${this.search.gugunCode}`).then(({ data }) => {
         this.dongs = data;
       });
     },
     selectDong(event) {
       let dongCode = event.target.value;
       console.log(dongCode);
-      this.search.dong = dongCode.substr(5);
+      this.search.dongCode = dongCode.substr(5);
     },
     searchHouse() {
       console.log("call searchHouse ....");
-      this.$router.push({ name: "mapTest", params: this.search });
+      this.$store.dispatch("searchHouse", this.search);
+      this.$router.push({ name: "mapTest"});
     },
   },
 };

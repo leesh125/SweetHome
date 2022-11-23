@@ -12,19 +12,19 @@
     </b-row>
 
     <b-row>
-      <select class="col-sm-4 mt-2" @change="selectSido($event)">
+      <select class="col-sm-4 mt-2" @change="selectSido($event)" v-model="sidoPicked">
         <option value="" selected>시도 선택</option>
-        <option v-for="sido in sidos" :key="sido.sidoCode" :value="sido.sidoCode">
+        <option v-for="(sido,index) in sidos" :key="index" :value="sido.sidoCode">
           {{ sido.sidoName }}
         </option>
       </select>
-      <select class="col-sm-4 mt-2" @change="selectGugun($event)">
+      <select class="col-sm-4 mt-2" @change="selectGugun($event)" v-model="gugunPicked">
         <option value="" selected>구군 선택</option>
         <option v-for="gugun in guguns" :key="gugun.gugunCode" :value="gugun.gugunCode">
           {{ gugun.gugunName }}
         </option>
       </select>
-      <select class="col-sm-4 mt-2" @change="selectDong($event)">
+      <select class="col-sm-4 mt-2" @change="selectDong($event)" v-model="dongPicked">
         <option value="" selected>동 선택</option>
         <option v-for="dong in dongs" :key="dong.dongCode" :value="dong.dongCode">
           {{ dong.dongName }}
@@ -36,6 +36,7 @@
 
 <script>
 import http from "@/util/http-common";
+import eventBus from "@/components/EventBus.vue"
 
 export default {
   name: "AptSearch",
@@ -51,49 +52,103 @@ export default {
         gugunCode: "",
         dongCode: "",
       },
+      sidoPicked:"",
+      gugunPicked:"",
+      dongPicked: "",
+      currAddress: {
+        sido: "",
+        gugun: "",
+        dong: "",
+      }
     };
   },
   created() {
+    eventBus.$on('getCurrentAddress', () => {
+      eventBus.$emit('addInterest', {
+        name: (this.currAddress.sido + " " + this.currAddress.gugun + " " + this.currAddress.dong).trim(),
+        search: this.search
+      })
+    });
+  },
+  mounted() {
     http.get("/address").then(({ data }) => {
       console.log(data);
       this.sidos = data;
-    });
+      this.sidos.map((x) => x.sidoCode = x.sidoCode.substr(0, 2));
+    }).then(() => {
+      return this.$store.getters.search;
+    }).then((search) => {
+      this.search = search; 
+
+      this.search.word = search.word;
+      if (search.sidoCode) {
+        this.sidoPicked = search.sidoCode;
+        http.get(`/address/${search.sidoCode}`).then(({ data }) => {
+
+          this.guguns = data;
+          this.guguns.map((x) => x.gugunCode = x.gugunCode.substr(2, 3));
+
+          if (search.gugunCode) {
+            console.log(search.gugunCode);
+            this.gugunPicked = search.gugunCode;
+            http.get(`/address/${search.sidoCode}/${search.gugunCode}`).then(({ data }) => {
+              this.dongs = data;
+              this.dongs.map((x) => x.dongCode = x.dongCode.substr(5));
+              if (search.dongCode) {
+                this.dongPicked = search.dongCode;
+              }
+            });
+          }
+        });
+      }
+    })
   },
-  mounted() {},
   methods: {
     selectSido(event) {
       this.guguns = [];
       this.dongs = [];
       this.search.gugunCode = "";
       this.search.dongCode = "";
+      this.currAddress.gugun = "";
+      this.currAddress.dong = "";
+
 
       let sidoCode = event.target.value; // 선택한 시,도
+      this.currAddress.sido = event.target.options[event.target.selectedIndex].text;
       if (sidoCode == "") {
         this.search.sidoCode = "";
         return;
       }
-      this.search.sidoCode = sidoCode.substr(0, 2);
+      this.search.sidoCode = sidoCode;
       http.get(`/address/${this.search.sidoCode}`).then(({ data }) => {
         this.guguns = data;
+        this.guguns.map((x) => x.gugunCode = x.gugunCode.substr(2, 3));
       });
     },
     selectGugun(event) {
       this.search.dongCode = "";
+      this.currAddress.dong = "";
       this.dongs = [];
 
       let gugunCode = event.target.value;
+      this.currAddress.gugun = event.target.options[event.target.selectedIndex].text;
+
       if (gugunCode == "") {
         this.search.gugunCode = "";
         return;
       }
-      this.search.gugunCode = gugunCode.substr(2, 3);
+
+      this.search.gugunCode = gugunCode;
       http.get(`/address/${this.search.sidoCode}/${this.search.gugunCode}`).then(({ data }) => {
         this.dongs = data;
+        this.dongs.map((x) => x.dongCode = x.dpmgCode.substr(5));
       });
     },
     selectDong(event) {
       let dongCode = event.target.value;
-      this.search.dongCode = dongCode.substr(5);
+      this.currAddress.dong = event.target.options[event.target.selectedIndex].text;
+      console.log(dongCode)
+      this.search.dongCode = dongCode;
     },
     searchHouse() {
       console.log("call searchHouse In Map ....");

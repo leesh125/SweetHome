@@ -17,8 +17,8 @@ export default {
       map: null,
       searchWord: "",
       locationCode: "",
-      currLat: "",
-      currLng: "",
+      currLat: "37.4812845080678",
+      currLng: "126.952713197762",
 
       regionCode: "",
       currMarkers: [],
@@ -33,15 +33,30 @@ export default {
       type: Object,
     },
   },
-  created () {
-    
+  created() {
+    const search = this.$store.getters.search;
+    const loactionCode = search.sidoCode + search.gugunCode + search.dongCode;
+    if ((loactionCode + search.word) == "") {
+      console.log('검색이아니군');
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition((position) => {
+          this.currLat = position.coords.latitude;
+          this.currLng = position.coords.longitude;
+        }, (err) => { console.log(err) }, { enableHighAccuracy: true });
+      }
+    } else {
+      console.log("검색이군");
+      this.$store.dispatch("searchHouse", search);
+    }
+
+
+
   },
   mounted() {
     //맵 생성
     if (window.kakao && window.kakao.maps) {
       this.initMap();
     } else {
-      console.log("여기를 들어온다고!??")
       const script = document.createElement("script");
       /* global kakao */
       script.onload = () => kakao.maps.load(this.initMap);
@@ -49,8 +64,6 @@ export default {
         "//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=b482a1a4c934ed9046dae64f612a7a87&libraries=services";
       document.head.appendChild(script);
     }
-    ///////////////여기서 부터 지도에 표시할 마커 설정해야됨//////////////////
-    
   },
 
   methods: {
@@ -69,42 +82,26 @@ export default {
         this.currLng = latlng.getLng();
       });
 
+      //네비게이션 바를 통해 이동했을 경우(params 존재 X)
+      console.log("from nav bar ...")
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition((position) => {
+          var lat = position.coords.latitude,
+            lng = position.coords.longitude;
 
+          this.currLat = position.coords.latitude;
+          this.currLng = position.coords.longitude;
+          const location = new kakao.maps.LatLng(lat, lng);
 
-      const params = this.$route.params;
-      // 홈화면 검색으로 이동했을 경우(params 존재)
-      if (Object.keys(params) != 0) {
-        this.searchWord = this.$route.params.word;
-        this.locationCode = params.sido + params.gugun + params.dong;
-
-        http.get(`/address/latlng/${this.locationCode}`).then(({ data }) => {
-          this.currLat = data.lat;
-          this.currLng = data.lng;
-          const location = new kakao.maps.LatLng(this.currLat, this.currLng);
           this.map.setCenter(location);
-        });
-      } else {
-        //네비게이션 바를 통해 이동했을 경우(params 존재 X)
-        console.log("from nav bar ...")
-        if (navigator.geolocation) {
-          navigator.geolocation.getCurrentPosition((position) => {
-            var lat = position.coords.latitude,
-              lng = position.coords.longitude;
-
-            this.currLat = position.coords.latitude;
-            this.currLng = position.coords.longitude;
-            const location = new kakao.maps.LatLng(lat, lng);
-
-            this.map.setCenter(location);
-            
-            var marker = new kakao.maps.Marker({
-              map: this.map, // 마커를 표시할 지도
-              position: location, // 마커를 표시할 위치
-              title: "현재 위치", // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
-            });
-            marker.setMap(this.map);
-          }, (err) => {console.log(err)},{enableHighAccuracy:true});
-        }
+          
+          var marker = new kakao.maps.Marker({
+            map: this.map, // 마커를 표시할 지도
+            position: location, // 마커를 표시할 위치
+            title: "현재 위치", // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
+          });
+          marker.setMap(this.map);
+        }, (err) => {console.log(err)},{enableHighAccuracy:true});
       }
     },
     getDongCode(lat, lng) {
@@ -128,6 +125,7 @@ export default {
     },
     drawMarkers(houseList) {
       this.initMarkers();
+
       if (houseList.length == 0) {
         return;
       }
@@ -138,7 +136,6 @@ export default {
           latlng: new kakao.maps.LatLng(x.lat, x.lng),
           data: x
         };
-        apt.data.address = x.baseAddressDto;
         return apt;
       });
           
@@ -188,14 +185,16 @@ export default {
       this.map.setCenter(new kakao.maps.LatLng(this.currLat, this.currLng));
     },
     searchHouseList(newValue) {
-      this.drawMarkers(newValue);
-      this.locationCode = this.$store.getters.locationCode;
-      http.get(`/address/latlng/${this.locationCode}`).then(({ data }) => {
-          this.currLat = data.lat;
-          this.currLng = data.lng;
-          const location = new kakao.maps.LatLng(this.currLat, this.currLng);
-          this.map.setCenter(location);
-        });
+      kakao.maps.load(() => {
+        this.drawMarkers(newValue);
+        this.locationCode = this.$store.getters.locationCode;
+        http.get(`/address/latlng/${this.locationCode}`).then(({ data }) => {
+            this.currLat = data.lat;
+            this.currLng = data.lng;
+            const location = new kakao.maps.LatLng(this.currLat, this.currLng);
+            this.map.setCenter(location);
+          });
+      });
     }
   },
 };

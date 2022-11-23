@@ -12,4 +12,6 @@ public class InterestDto {
 	private int no;
 	private String userId;
 	private String dongCode;
+
+	BaseAddressDto address;
 }
