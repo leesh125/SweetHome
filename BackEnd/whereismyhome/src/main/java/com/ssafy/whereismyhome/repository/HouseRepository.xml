@@ -11,6 +11,7 @@
 		<result column="jibun" property="jibun"/>
 		<result column="lat" property="lat"/>
 		<result column="lng" property="lng"/>
+		<result column="likeNumber" property="likeNumber"/>
 	    <association property="baseAddressDto" javaType="com.ssafy.whereismyhome.dto.BaseAddressDto">
 			<result column="sidoName" property="sidoName"/>
 			<result column="gugunName" property="gugunName"/>
@@ -20,7 +21,15 @@
 	
 
 	<select id="selectHouseInfo" parameterType="HouseSearchDto" resultMap="houseInfoMap" >
-		select h.aptCode, h.aptName, h.dongCode, h.dongName, h.buildYear, h.jibun, h.lat, h.lng, b.sidoName, b.gugunName, b.dongName
+		select h.aptCode, h.aptName, h.dongCode, h.dongName, h.buildYear, h.jibun, h.lat, h.lng, 
+		(select count(ifnull(l.likeNumber, 0))
+		from (
+			select count(*) likeNumber
+		    from likes
+		    group by aptCode
+		    having aptCode = h.aptCode		    
+		) as l) likeNumber,
+		b.sidoName, b.gugunName, b.dongName
 		from houseinfo h
 		left join baseaddress b
 		on h.dongCode = b.dongCode

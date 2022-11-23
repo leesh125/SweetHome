@@ -14,11 +14,11 @@
             <h3 class="mb-1">{{ house.aptName }} 아파트</h3>
             <div>
               <small>
-              {{ house.baseAddressDto?.sidoName }} {{ house.baseAddressDto?.gugunName }} {{ house.baseAddressDto?.dongName }}
+              {{ house.baseAddressDto?.sidoName }} {{ house.baseAddressDto?.gugunName }} {{ house.baseAddressDto?.dongName }} {{ house.jibun }}
             </small>
-            <br />
+            <br>
             <small>
-              {{ house.jibun }} {{ house.buildYear }}년 준공
+              {{ house.buildYear }}년 준공
             </small>
             </div>
 
@@ -29,7 +29,7 @@
               <!-- <h4>최근 거래액 : 10000만</h4> -->
               <small>거래내역 조회 ></small>
             </div>
-            <small>♥ 36</small>
+            <small>🧡 {{house.likeNumber}}</small>
           </div>
         </b-list-group-item>
       </template>

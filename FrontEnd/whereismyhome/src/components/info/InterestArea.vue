@@ -1,7 +1,7 @@
 <template>
 <b-container fluid>
     <b-row>
-      <select class="col-sm-7 mt-2">
+      <select class="col-sm-7 mt-2" @change="selectInterest($event)">
         <option value="" selected>관심지역선택</option>
         <option v-for="interest in interests" :value="interest.dongCode" :key="interest.no">
           {{interest.address.sidoName}} {{interest.address.gugunName}} {{interest.address.dongName}}
@@ -29,12 +29,11 @@ export default {
     };
   },
   created() {
-    const userId = 'ssafy@ssafy.com'
+    const userId = this.$store.getters.loginUser.userId;
     http.get(`/interest/${userId}`)
       .then(({ data }) => {
         this.$store.commit("setInterests", data);
-      })
-      ;
+      });
 
     eventBus.$on("addInterest", (interest) => {
       const i = {
@@ -52,6 +51,10 @@ export default {
   methods: {
     addInterest() {
       eventBus.$emit("getCurrentAddress");
+    },
+    selectInterest(event) {
+      console.log(event.target.value);
+      eventBus.$emit("selectInterest", event.target.value);
     }
   },
   computed: {
