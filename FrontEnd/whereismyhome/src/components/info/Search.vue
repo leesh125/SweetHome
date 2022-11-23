@@ -69,6 +69,37 @@ export default {
         search: this.search
       })
     });
+
+    eventBus.$on('selectInterest', (locationCode) => {
+      let search = {
+        word: "",
+        sidoCode: locationCode.substr(0, 2),
+        gugunCode: locationCode.substr(2, 3),
+        dongCode: locationCode.substr(5),
+      };
+      console.log(search)
+      this.search = search; 
+      if (search.sidoCode) {
+        this.sidoPicked = search.sidoCode;
+        http.get(`/address/${search.sidoCode}`).then(({ data }) => {
+
+          this.guguns = data;
+          this.guguns.map((x) => x.gugunCode = x.gugunCode.substr(2, 3));
+
+          if (search.gugunCode) {
+            console.log(search.gugunCode);
+            this.gugunPicked = search.gugunCode;
+            http.get(`/address/${search.sidoCode}/${search.gugunCode}`).then(({ data }) => {
+              this.dongs = data;
+              this.dongs.map((x) => x.dongCode = x.dongCode.substr(5));
+              if (search.dongCode) {
+                this.dongPicked = search.dongCode;
+              }
+            });
+          }
+        });
+      }
+    });
   },
   mounted() {
     http.get("/address").then(({ data }) => {
@@ -79,7 +110,6 @@ export default {
       return this.$store.getters.search;
     }).then((search) => {
       this.search = search; 
-
       this.search.word = search.word;
       if (search.sidoCode) {
         this.sidoPicked = search.sidoCode;
@@ -141,7 +171,7 @@ export default {
       this.search.gugunCode = gugunCode;
       http.get(`/address/${this.search.sidoCode}/${this.search.gugunCode}`).then(({ data }) => {
         this.dongs = data;
-        this.dongs.map((x) => x.dongCode = x.dpmgCode.substr(5));
+        this.dongs.map((x) => x.dongCode = x.dongCode.substr(5));
       });
     },
     selectDong(event) {

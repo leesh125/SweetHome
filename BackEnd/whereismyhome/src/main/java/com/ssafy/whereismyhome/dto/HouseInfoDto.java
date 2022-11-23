@@ -20,6 +20,7 @@ public class HouseInfoDto {
 	private String lat;
 	private String lng;
 	private String img;
+	private Integer likeNumber;
 	private BaseAddressDto baseAddressDto;
 	private List<HouseDealDto> houseDealDtos;
 }
