@@ -30,7 +30,17 @@ const routes = [
     path: '/login',
     name: 'login',
     component: () => import(/* webpackChunkName: "about" */ '../views/LoginView.vue'),
-  }
+  },
+  {
+    path: '/notice',
+    name: 'notice',
+    component: () => import(/* webpackChunkName: "about" */ '../views/NoticeView.vue'),
+  },
+  {
+    path: '/detail',
+    name: 'detail',
+    component: () => import(/* webpackChunkName: "about" */ '../views/NoticeDetailView.vue'),
+  },
 ]
 
 const router = new VueRouter({
