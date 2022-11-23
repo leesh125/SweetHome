@@ -7,33 +7,31 @@
       <template v-else>
         <b-list-group-item
           v-for="house in houseList"
-          :key="house.id"
+          :key="house.dongCode"
           href="#"
-          class="flex-column align-items-start">
+          class="flex-column align-items-start"
+        >
           <div class="d-flex w-100 justify-content-between">
             <h3 class="mb-1">{{ house.aptName }} 아파트</h3>
             <div>
               <small>
-              {{ house.baseAddressDto?.sidoName }} {{ house.baseAddressDto?.gugunName }} {{ house.baseAddressDto?.dongName }} {{ house.jibun }}
-            </small>
-            <br>
-            <small>
-              {{ house.buildYear }}년 준공
-            </small>
+                {{ house.baseAddressDto?.sidoName }} {{ house.baseAddressDto?.gugunName }}
+                {{ house.baseAddressDto?.dongName }} {{ house.jibun }}
+              </small>
+              <br />
+              <small> {{ house.buildYear }}년 준공 </small>
             </div>
-
           </div>
           <p></p>
           <div class="d-flex w-100 justify-content-between">
             <div>
               <!-- <h4>최근 거래액 : 10000만</h4> -->
-              <small>거래내역 조회 ></small>
+              <small :id="house.aptCode" @click="openDetail($event)">거래내역 조회 ></small>
             </div>
-            <small>🧡 {{house.likeNumber}}</small>
+            <small>🧡 {{ house.likeNumber }}</small>
           </div>
         </b-list-group-item>
       </template>
-
     </b-list-group>
   </div>
 </template>
@@ -52,7 +50,11 @@ export default {
   },
   mounted() {},
 
-  methods: {},
+  methods: {
+    openDetail(event) {
+      this.$emit("openHouseDetail", event.target.id);
+    },
+  },
   computed: {
     searchHouseList() {
       return this.$store.state.searchHouseList;
