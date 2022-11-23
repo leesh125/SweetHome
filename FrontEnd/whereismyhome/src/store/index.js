@@ -90,7 +90,6 @@ export default new Vuex.Store({
   modules: {
   },
   plugins: [
-    //주목! : 여기에 쓴 모듈만 저장됩니다.
     createPersistedState()
   ]
 })
