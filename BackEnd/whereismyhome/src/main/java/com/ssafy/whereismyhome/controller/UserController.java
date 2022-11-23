@@ -99,11 +99,14 @@ public class UserController {
 		if(userId != null) map.put("userId", userId);
 		if(password != null) map.put("password", password);
 		String name = userService.login(map);
-		System.out.println(name);
+		
 		if(name != null) {
+			HashMap<String, String> userInfo = new HashMap<>();
+			userInfo.put("userId", userId);
+			userInfo.put("name", name);
 			session.setAttribute("userId", userId);
 			session.setAttribute("name", name);
-			return ResponseEntity.ok().body(name);
+			return ResponseEntity.ok().body(userInfo);
 		}
 		return ResponseEntity.notFound().build();
 	}
@@ -111,7 +114,7 @@ public class UserController {
 	@GetMapping("/logout")
 	protected ResponseEntity<Object> logout(HttpSession session){
 		session.invalidate();
-		return ResponseEntity.notFound().build();
+		return ResponseEntity.noContent().build();
 	}
 	
 }

@@ -117,13 +117,15 @@ export default {
 					this.check = false;
 				}
 			}
-			console.log(this.check);
+			
 			if (this.check) {
 				http.post(`/users/login?userId=${this.userId}&password=${this.password}`).then(({ data }) => {
 					if (data != null) {
+						this.$store.commit("setLoginUser", data);
+						this.$store.commit("setIsLogin", true);
 						this.$swal({
 							icon: 'success',
-							title: `${data}님 환영합니다.`,
+							title: `${data.name}님 환영합니다.`,
 						}).then(this.$router.push("/"));
 					} else {
 						return false;

@@ -1,5 +1,6 @@
 import http from "@/util/http-common";
 import Vue from 'vue'
+import createPersistedState from 'vuex-persistedstate';
 import Vuex from 'vuex'
 
 Vue.use(Vuex)
@@ -19,6 +20,12 @@ export default new Vuex.Store({
     locationCode: "",
     currLat: "37.4812845080678",
     currLng: "126.952713197762",
+
+    /////////////////////////////////석현이꺼
+    loginUser: {
+      userId: "",
+      name: "",
+    }
   },
   getters: {
     interests(state) {
@@ -44,7 +51,13 @@ export default new Vuex.Store({
     },
     searchHouseList(state) {
       return state.searchHouseList;
-    }
+    },
+    loginUser(state) {
+      return state.loginUser;
+    },
+    isLogin(state) {
+      return state.isLogin;
+    },
   },
   mutations: {
     addInterest(state, interest) {
@@ -64,6 +77,17 @@ export default new Vuex.Store({
     },
     setSearchHouseList(state, searchHouseList) {
       state.searchHouseList = searchHouseList;
+    },
+    setLoginUser(state, loginUser) {
+      state.loginUser.userId = loginUser.userId;
+      state.loginUser.name = loginUser.name;
+    },
+    logout(state) {
+      state.loginUser.userId = '';
+      state.loginUser.name = '';
+    },
+    setIsLogin(state, res) {
+      state.isLogin = res;
     }
   },
   actions: {
@@ -77,6 +101,7 @@ export default new Vuex.Store({
           commit('setLocationCode', getters.locationCode);
         })
     },
+
     addInterest({ commit }, interest) {
       console.log(interest);
       http.post("/interest", interest).then(() => {
@@ -87,7 +112,11 @@ export default new Vuex.Store({
       })
 
     }
+
   },
   modules: {
-  }
+  },
+  plugins: [
+    createPersistedState()
+  ]
 })

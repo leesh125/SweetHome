@@ -7,7 +7,13 @@
         <router-link to="/map/test">Map Test</router-link>
         <div id="indicator"></div>
       </div>
-      <div class="nav-div-right">
+      <div class="nav-div-right" v-if="isLogin">
+        <a><button @click="[bubble(), logout()]" class="bubbly-button isLoginBtn">로그아웃</button></a>
+        <router-link to="/login"><button @click="bubble" class="bubbly-button isLoginBtn">내정보</button></router-link>
+        <div id="indicator2"></div>
+        <span class="welcome-span"><b style="color: #42B983;">{{ name }}</b>님 환영합니다.</span>
+      </div>
+      <div class="nav-div-right" v-else>
         <router-link to="/register"><button @click="bubble" class="bubbly-button">회원가입</button></router-link>
         <router-link to="/login"><button @click="bubble" class="bubbly-button">로그인</button></router-link>
         <div id="indicator2"></div>
@@ -18,15 +24,45 @@
 </template>
 
 <script>
+import http from "@/util/http-common";
+
 export default {
   name: 'FrontEndApp',
 
   data() {
     return {
-      
+      name: "",
+      userId: ""
     };
   },
-
+  computed: {
+    loginUser() {
+      return this.$store.getters.loginUser.name;
+    },
+    isLogin() {
+      return this.$store.getters.loginUser.name != '';
+    }
+  },
+  watch: {
+    loginUser(newValue) {
+      console.log('loginUser', newValue);
+      this.name = newValue;
+    }
+  },
+  created() {
+    console.log(this.$store.getters.loginUser.name);
+    if (this.$store.getters.loginUser.name != '') {
+      console.log('login complete');
+      let arr = localStorage.getItem("vuex");
+      let jsonArr = JSON.parse(arr);
+      this.name = jsonArr.loginUser.name;
+      this.userId = jsonArr.loginUser.userId;
+      this.$store.commit('setIsLogin', true);
+    } else {
+      console.log('login failed');
+      this.$store.commit('setIsLogin', false);
+    }
+  },
   mounted() {
     
   },
@@ -50,7 +86,15 @@ export default {
       for (var i = 0; i < bubblyButtons.length; i++) {
         bubblyButtons[i].addEventListener('click', animateButton, false);
       }
-    }
+    },
+    logout() {
+      window.localStorage.clear();
+      console.log('hi', this.$store.getters.isLogin);
+      http.get(`/users/logout`)
+        .then(this.$store.commit("logout"))
+        .then(this.$store.commit("setIsLogin",false));
+    },
+
   },
 };
 </script>
@@ -213,6 +257,11 @@ nav a:first-child {
 body {
   margin: 0;
   padding: 0;
+  -ms-overflow-style: none;
+}
+
+::-webkit-scrollbar {
+  display: none;
 }
 
 .bubbly-button {
@@ -220,7 +269,7 @@ body {
   font-size: 1em;
   font-weight: 600;
   -webkit-appearance: none;
-  padding: 25px 0;
+  padding: 24px 0;
   appearance: none;
   background-color: #fff;
   border-style: none;
@@ -308,5 +357,20 @@ body {
     background-position: 0% 90%, 20% 90%, 45% 70%, 60% 110%, 75% 80%, 95% 70%, 110% 10%;
     background-size: 0% 0%, 0% 0%, 0% 0%, 0% 0%, 0% 0%, 0% 0%;
   }
+}
+
+
+.isLoginBtn:hover{
+  color: #0d6efd;
+}
+.isLoginBtn{
+  transition: 0.5s ease color;
+}
+.welcome-span{
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  right: 0;
+  font-size: 14px;
 }
 </style>
