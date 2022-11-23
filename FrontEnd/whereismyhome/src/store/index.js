@@ -7,7 +7,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    interests:[],
+    interests: [],
 
     search: {
       word: "",
@@ -102,13 +102,21 @@ export default new Vuex.Store({
         })
     },
 
-    addInterest({ commit }, interest) {
+    addInterest({ commit, state }, interest) {
+      for (let i of state.interests) {
+        if (i.dongCode == interest.dongCode) {
+          alert("이미 추가한 관심 지역 입니다.");
+          return;
+        }
+      }
+
       console.log(interest);
+      console.log(state.interests);
       http.post("/interest", interest).then(() => {
         http.get(`/interest/${interest.userId}`)
-        .then(({ data }) => {
-          commit("setInterests", data);
-        })
+          .then(({ data }) => {
+            commit("setInterests", data);
+          })
       })
 
     }
