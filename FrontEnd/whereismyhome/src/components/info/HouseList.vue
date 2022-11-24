@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="house-list">
     <b-list-group class="list-group">
       <b-list-group-item v-if="houseList.length == 0" name=""
         >아파트가 존재하지 않습니다.</b-list-group-item
@@ -83,5 +83,9 @@ ul {
 }
 ul::-webkit-scrollbar {
   display: none;
+}
+
+.house-list > div a {
+  background-color: rgb(255, 253, 244);
 }
 </style>

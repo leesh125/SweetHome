@@ -5,13 +5,13 @@
         <b-input-group class="mt-3">
           <b-form-input v-model.lazy="search.word"></b-form-input>
           <b-input-group-append>
-            <b-button variant="outline-success" @click="searchHouse">search</b-button>
+            <b-button class="search-btn" variant="outline-success" @click="searchHouse">search</b-button>
           </b-input-group-append>
         </b-input-group>
       </b-col>
     </b-row>
 
-    <b-row>
+    <b-row class="selects">
       <select class="col-sm-4 mt-2" @change="selectSido($event)" v-model="sidoPicked">
         <option value="" selected>시도 선택</option>
         <option v-for="(sido, index) in sidos" :key="index" :value="sido.sidoCode">
@@ -198,5 +198,37 @@ export default {
 .optionbox {
   position: relative;
   margin-right: 10px;
+}
+
+.selects > select {
+  background: #42b983;
+  color: #fff;
+  padding: 5px;
+  width: 110px;
+  height: 40px;
+  border: none;
+  box-shadow: 0 5px 10px rgb(68, 72, 80);
+  border-radius: 10px 10px 10px 10px;
+  outline: none;
+  margin: 10px 8px;
+}
+
+.search-btn {
+  transition: all 0.5s;
+  font-size: 18px;
+  font-weight: 600;
+  color: rgb(255, 255, 255);
+  background-color: rgb(35, 122, 85);
+  border-style:none;
+}
+
+.search-btn:hover {
+  background-color: rgb(11, 51, 32);
+}
+
+.form-control:focus{
+  outline: none !important;
+  border-color: #068fb1;
+  box-shadow: 0 0 20px #068fb1;
 }
 </style>
