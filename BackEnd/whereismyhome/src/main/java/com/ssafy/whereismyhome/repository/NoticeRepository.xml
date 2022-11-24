@@ -4,12 +4,12 @@
 <mapper namespace="com.ssafy.whereismyhome.repository.NoticeRepository">
 	
 	<select id="selectNotices" resultMap="NoticeResultMap">
-		select no, subject, content, author, createDate, hit
+		select no, subject, content, createDate, hit
 		from notice
 	</select>
 	
 	<select id="selectNotice" resultMap="NoticeResultMap" parameterType="int">
-		select no, subject, content, author, createDate, hit
+		select no, subject, content, createDate, hit
 		from notice
 		where no = #{no}
 	</select>
@@ -21,7 +21,7 @@
 	</update>
 	
 	<insert id="insertNotice" parameterType="NoticeDto">
-		insert into notice(subject,content,author,createDate,hit) values(#{subject}, #{content}, #{author}, date_format(now(),'%Y-%m-%d %H:%i'), #{hit})
+		insert into notice(subject,content,createDate,hit) values(#{subject}, #{content}, date_format(now(),'%Y-%m-%d %H:%i'), #{hit})
 	</insert>
 	
 	<update id="updateNotice" parameterType="NoticeDto">
@@ -38,7 +38,6 @@
 		<id column="no" property="no"/>
 		<result column="subject" property="subject"/>
 		<result column="content" property="content"/>
-		<result column="author" property="author"/>
 		<result column="createDate" property="createDate"/>
 		<result column="hit" property="hit"/>
 	</resultMap>
