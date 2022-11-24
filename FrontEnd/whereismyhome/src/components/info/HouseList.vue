@@ -28,7 +28,7 @@
               <!-- <h4>최근 거래액 : 10000만</h4> -->
               <small class="trade-search" :id="house.aptCode" @click="openDetail($event)">거래내역 조회 ></small>
             </div>
-            <small>🧡 {{ house.likeNumber }}</small>
+            <small><i class="fa fa-heart" aria-hidden="true" style="color:red;"></i> {{ house.likeNumber }}</small>
           </div>
         </b-list-group-item>
       </template>
