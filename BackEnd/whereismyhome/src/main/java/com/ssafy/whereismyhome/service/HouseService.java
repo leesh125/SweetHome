@@ -16,4 +16,6 @@ public interface HouseService {
 	Integer likeHouse(String aptCode, String userId);
 
 	Integer likeHouseCancel(String aptCode, String userId);
+
+	Integer getHouseLikeNumber(String aptCode);
 }
