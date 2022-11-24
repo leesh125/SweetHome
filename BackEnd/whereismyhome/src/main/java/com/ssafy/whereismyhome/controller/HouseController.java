@@ -86,6 +86,17 @@ public class HouseController {
 			return ResponseEntity.noContent().build();
 		}
 	}
+	
+	@GetMapping("/{aptCode}/like")
+	public ResponseEntity<?> getHouseLikeNumber(@PathVariable String aptCode){
+		Integer likeNumber = houseService.getHouseLikeNumber(aptCode);
+		if(likeNumber != null) {
+			return ResponseEntity.ok(likeNumber);
+		} else {
+			return ResponseEntity.noContent().build();
+		}	
+	}
+	
 }
 
 

@@ -17,7 +17,11 @@ public interface HouseRepository {
 
 	List<HouseDealDto> selectHouseDealInfo(String aptCode);
 
-	Integer insertLike(String aptCode, String userId);
+	void insertLike(Map<String, String> map);
 
-	Integer deleteLike(String aptCode, String userId);
+	void deleteLike(Map<String, String> map);
+	
+	Integer getLikeNumberByAptCode(String aptCode);
+	
+
 }

@@ -44,9 +44,9 @@ export default {
     },
 
     openHouseDetail(aptCode) {
-      console.log(aptCode);
       this.detailOpen = true;
       http.get(`/houses/${aptCode}/dealInfos`).then(({ data }) => {
+        console.log(data);
         this.aptDetail = data[0];
       });
     },
