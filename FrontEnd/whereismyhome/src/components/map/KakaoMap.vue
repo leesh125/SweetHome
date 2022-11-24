@@ -182,6 +182,8 @@ export default {
           zIndex: 310000,
         });
 
+        customOverlay.setMap(this.map);
+
         kakao.maps.event.addListener(marker, "click", () => {
           customOverlay.setMap(this.map);
         });
