@@ -10,7 +10,7 @@
       </div>
       <div class="nav-div-right" v-if="isLogin">
         <a><button @click="[bubble(), logout()]" class="bubbly-button isLoginBtn" style="z-index: 0;">로그아웃</button></a>
-        <router-link to="/login"><button @click="bubble" class="bubbly-button isLoginBtn" style="z-index: -1;">내정보</button></router-link>
+        <router-link to="/profile"><button @click="bubble" class="bubbly-button isLoginBtn" style="z-index: -1;">내정보</button></router-link>
         <div id="indicator2"></div>
         <span class="welcome-span"><b style="color: #42B983;">{{ name }}</b>님 환영합니다.</span>
       </div>
