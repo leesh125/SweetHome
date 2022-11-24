@@ -204,8 +204,9 @@ export default {
   background: #42b983;
   color: #fff;
   padding: 5px;
-  width: 110px;
+  width: 100px;
   height: 40px;
+  font-size: 14px;
   border: none;
   box-shadow: 0 5px 10px rgb(68, 72, 80);
   border-radius: 10px 10px 10px 10px;

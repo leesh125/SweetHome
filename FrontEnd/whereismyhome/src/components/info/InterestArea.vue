@@ -73,7 +73,7 @@ export default {
   background: #fff;
   color: #42b983;
   padding: 5px;
-  width: 200px;
+  width: 190px;
   height: 40px;
   border: none;
   box-shadow: 0 5px 10px rgb(68, 72, 80);

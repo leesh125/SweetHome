@@ -12,7 +12,7 @@
           class="flex-column align-items-start"
         >
           <div class="d-flex w-100 justify-content-between">
-            <h3 class="mb-1">{{ house.aptName }} 아파트</h3>
+            <h3 class="mb-1 houseName"><span style="text-align:left"><i class="fa fa-home" aria-hidden="true"></i>{{ house.aptName }}</span> <div style="margin-left: 18.5px;">아파트</div></h3>
             <div>
               <small>
                 {{ house.baseAddressDto?.sidoName }} {{ house.baseAddressDto?.gugunName }}
@@ -26,7 +26,7 @@
           <div class="d-flex w-100 justify-content-between">
             <div>
               <!-- <h4>최근 거래액 : 10000만</h4> -->
-              <small :id="house.aptCode" @click="openDetail($event)">거래내역 조회 ></small>
+              <small class="trade-search" :id="house.aptCode" @click="openDetail($event)">거래내역 조회 ></small>
             </div>
             <small>🧡 {{ house.likeNumber }}</small>
           </div>
@@ -70,6 +70,8 @@ export default {
 </script>
 
 <style scoped>
+
+@import "../../assets/fonts/font-awesome-4.7.0/css/font-awesome.min.css"; 
 .list-group {
   max-height: 76vh;
   margin-bottom: 10px;
@@ -86,6 +88,44 @@ ul::-webkit-scrollbar {
 }
 
 .house-list > div a {
-  background-color: rgb(255, 253, 244);
+  background-color: rgb(255, 255, 255);
+  cursor: auto;
 }
+
+.house-list > div a:hover {
+  background-color: #e3eeff;
+  transition: all 0.5s;
+}
+
+.trade-search {
+  --s: 0.1em;   /* the thickness of the line */
+  --c: #2c4bff; /* the color */
+  
+  color: #0000;
+  padding-bottom: var(--s);
+  background: 
+    linear-gradient(90deg,var(--c) 50%,#000 0) calc(100% - var(--_p,0%))/200% 100%,
+    linear-gradient(var(--c) 0 0) 0% 100%/var(--_p,0%) var(--s) no-repeat;
+  -webkit-background-clip: text,padding-box;
+          background-clip: text,padding-box;
+  transition: 0.5s;
+  font-family: system-ui, sans-serif;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.houseName{
+  color: rgb(34, 34, 34);
+  font-size: 20px;
+  font-weight: 700;
+  width: 150px;
+  text-align: left;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.trade-search:hover {--_p: 100%}
+
+
 </style>
