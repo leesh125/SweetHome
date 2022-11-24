@@ -9,6 +9,7 @@ public class CorsConfig implements WebMvcConfigurer {
 	public void addCorsMappings(CorsRegistry registry) {
 		registry.addMapping("/**")
 		.allowedOrigins("http://127.0.0.1:9000")
+		.allowedMethods("GET","POST","DELETE","PUT")
 		.allowCredentials(true);
 	}
 }
