@@ -4,8 +4,8 @@
     <nav>
       <div class="nav-div">
         <router-link to="/">HappyHouse</router-link>
-        <router-link to="/notice">공지사항</router-link>
         <router-link to="/map/test">Map Test</router-link>
+        <router-link to="/notice">공지사항</router-link>
         <div id="indicator"></div>
       </div>
       <div class="nav-div-right" v-if="isLogin">
