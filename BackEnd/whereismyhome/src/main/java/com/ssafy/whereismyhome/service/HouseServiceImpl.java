@@ -34,5 +34,16 @@ public class HouseServiceImpl implements HouseService {
 		return houseRepository.selectHouseDealInfo(aptCode);
 	}
 
+	@Override
+	public Integer likeHouse(String aptCode, String userId) {
+		return houseRepository.insertLike(aptCode, userId);
+	}
+
+	@Override
+	public Integer likeHouseCancel(String aptCode, String userId) {
+		// TODO Auto-generated method stub
+		return houseRepository.deleteLike(aptCode, userId);
+	}
+
 
 }

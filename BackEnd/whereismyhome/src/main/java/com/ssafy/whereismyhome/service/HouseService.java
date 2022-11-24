@@ -12,4 +12,8 @@ public interface HouseService {
 	HouseInfoDto getHouseByAptCode(String aptCode);
 
 	List<HouseDealDto> getDealInfoList(String aptCode);
+
+	Integer likeHouse(String aptCode, String userId);
+
+	Integer likeHouseCancel(String aptCode, String userId);
 }
