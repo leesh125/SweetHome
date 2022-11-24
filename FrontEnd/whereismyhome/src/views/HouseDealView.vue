@@ -82,4 +82,8 @@ export default {
   width: 28px;
   height: 66px;
 }
+
+.container-fluid {
+  background-color: #50be8d;
+}
 </style>
