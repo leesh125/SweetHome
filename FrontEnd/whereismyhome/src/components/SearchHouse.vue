@@ -115,7 +115,7 @@ export default {
     searchHouse() {
       console.log("call searchHouse ....");
       this.$store.dispatch("searchHouse", this.search);
-      this.$router.push({ name: "mapTest"});
+      this.$router.push({ name: "houseDeal"});
     },
   },
 };

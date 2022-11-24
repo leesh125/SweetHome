@@ -16,9 +16,9 @@ const routes = [
     component: () => import(/* webpackChunkName: "about" */ '../views/HouseView.vue')
   },
   {
-    path: '/map/test',
-    name: 'mapTest',
-    component: () => import(/* webpackChunkName: "about" */ '../views/MapTestView.vue'),
+    path: '/houseDeal',
+    name: 'houseDeal',
+    component: () => import(/* webpackChunkName: "about" */ '../views/HouseDealView.vue'),
     props: true
   },
   {

@@ -18,7 +18,7 @@ import KakaoMap from "@/components/map/KakaoMap";
 import AptInfo from "@/components/info/AptInfo";
 
 export default {
-  name: "HomeView",
+  name: "HouseDealView",
   components: {
     KakaoMap,
     AptInfo,

@@ -32,8 +32,12 @@ export default {
     },
   },
   created() {
-    const search = this.$store.getters.search;
+
+  },
+  mounted() {
+    let search = this.$store.getters.search;
     const loactionCode = search.sidoCode + search.gugunCode + search.dongCode;
+    console.log(search);
     if (loactionCode + search.word == "") {
       console.log("검색이아니군");
       if (navigator.geolocation) {
@@ -41,6 +45,19 @@ export default {
           (position) => {
             this.currLat = position.coords.latitude;
             this.currLng = position.coords.longitude;
+
+            var geocoder = new kakao.maps.services.Geocoder();
+            var coord = new kakao.maps.LatLng(this.currLat, this.currLng);
+
+
+            geocoder.coord2RegionCode(coord.getLng(), coord.getLat(), (result, status) => {
+              if (status === kakao.maps.services.Status.OK) {
+                console.log(result[0].code);
+                search.sidoCode = result[0].code.substr(0, 2);
+                search.gugunCode = result[0].code.substr(2, 3);
+                search.dongCode = result[0].code.substr(5);
+              }
+            });
           },
           (err) => {
             console.log(err);
@@ -50,13 +67,10 @@ export default {
       }
     } else {
       console.log("검색이군");
-      this.$store.dispatch("searchHouse", search);
     }
-  },
-  mounted() {
-    //맵 생성
+
     if (window.kakao && window.kakao.maps) {
-      this.initMap();
+        this.initMap();
     } else {
       const script = document.createElement("script");
       /* global kakao */
@@ -65,6 +79,8 @@ export default {
         "//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=b482a1a4c934ed9046dae64f612a7a87&libraries=services";
       document.head.appendChild(script);
     }
+    this.$store.dispatch("searchHouse", search);
+    this.searchHouseList();
   },
 
   methods: {
@@ -184,24 +200,36 @@ export default {
     searchHouseList() {
       return this.$store.getters.searchHouseList;
     },
+    // kakaoMap() {
+    //   return this.$store.getters.kakaoMap;
+    // }
   },
 
   watch: {
+    // kakaoMap() {
+    //   this.drawMarkers(this.$store.getters.searchHouseList);
+    //   this.locationCode = this.$store.getters.locationCode;
+    //   http.get(`/address/latlng/${this.locationCode}`).then(({ data }) => {
+    //     this.currLat = data.lat;
+    //     this.currLng = data.lng;
+    //     const location = new kakao.maps.LatLng(this.currLat, this.currLng);
+    //     this.map.setCenter(location);
+    //   });
+    // },
     sideBarOpen() {
       this.map.relayout();
       this.map.setCenter(new kakao.maps.LatLng(this.currLat, this.currLng));
     },
     searchHouseList(newValue) {
-      kakao.maps.load(() => {
-        this.drawMarkers(newValue);
-        this.locationCode = this.$store.getters.locationCode;
-        http.get(`/address/latlng/${this.locationCode}`).then(({ data }) => {
-          this.currLat = data.lat;
-          this.currLng = data.lng;
-          const location = new kakao.maps.LatLng(this.currLat, this.currLng);
-          this.map.setCenter(location);
-        });
-      });
+      this.drawMarkers(newValue);
+      this.locationCode = this.$store.getters.locationCode;
+      http.get(`/address/latlng/${this.locationCode}`).then(({ data }) => {
+        this.currLat = data.lat;
+        this.currLng = data.lng;
+        const location = new kakao.maps.LatLng(this.currLat, this.currLng);
+        this.map.setCenter(location);
+    });
+
     },
   },
 };
