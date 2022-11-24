@@ -25,8 +25,13 @@
 </template>
 
 <script>
+import Vue from 'vue';
+import VueSweetalert2 from 'vue-sweetalert2';
+import 'sweetalert2/dist/sweetalert2.min.css';
+
 import http from "@/util/http-common";
 
+Vue.use(VueSweetalert2);
 export default {
   name: 'FrontEndApp',
 
@@ -94,6 +99,10 @@ export default {
       http.get(`/users/logout`)
         .then(this.$store.commit("logout"))
         .then(this.$store.commit("setIsLogin",false));
+      this.$swal({
+				icon: 'success',
+				title: `다음에 봐요 :)`,
+			});  
     },
 
   },

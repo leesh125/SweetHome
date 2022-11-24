@@ -4,11 +4,16 @@
       <div class="col-md-8">
         <div class="media g-mb-30 media-comment">
           <div class="hit">조회수 : {{hit}}</div>
-          <div class="noticeNo">공지번호 : {{no}}</div>
           <div class="notice-head">공지수정</div>
           <img class="d-flex g-width-50 g-height-50 rounded-circle g-mt-3 g-mr-15"
             src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Image Description">
           <div class="media-body u-shadow-v18 g-bg-secondary g-pa-30">
+            <div class="g-mb-15">
+              <div style="display: flex; height:50px;">
+                <h5 class="h5 g-color-gray-dark-v1 mb-0">공지번호: </h5>
+                <input style="background-color: rgb(221 221 221);" type="text" v-model="no" class="title" disabled/>
+              </div>
+            </div>
             <div class="g-mb-15">
               <div style="display: flex;">
                 <h5 class="h5 g-color-gray-dark-v1 mb-0">제목: </h5>
@@ -46,7 +51,13 @@
 </template>
 
 <script>
+import Vue from 'vue';
+import VueSweetalert2 from 'vue-sweetalert2';
+import 'sweetalert2/dist/sweetalert2.min.css';
+
 import http from "@/util/http-common";
+
+Vue.use(VueSweetalert2);
 
 export default {
   name: 'noticeDetail',
@@ -87,6 +98,10 @@ export default {
           hit: this.hit
         }
       }));
+      this.$swal({
+				icon: 'success',
+				title: `공지사항이 수정되었습니다.`,
+			});
     }
   },
   watch: {
@@ -186,7 +201,7 @@ export default {
   line-height: 2.5;
   margin-left: 20px;
   font-weight: 800;
-  width: 70px;
+  width: 87px;
 }
 
 .title {

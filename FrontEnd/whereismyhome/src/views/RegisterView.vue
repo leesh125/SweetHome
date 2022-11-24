@@ -148,7 +148,7 @@ export default {
             this.$swal({
               icon: 'success',
               title: '회원가입을 성공했습니다.',
-            }).then(this.$router.push("/"));
+            }).then(this.$router.push("/login"));
           } else {
             return false;
           }

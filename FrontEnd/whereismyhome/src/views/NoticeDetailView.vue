@@ -85,7 +85,7 @@ export default {
     name: 'noticeDetail',
     data() {
       return {
-        count: 170,
+        count: 1,
         flag: false,
       };
     },

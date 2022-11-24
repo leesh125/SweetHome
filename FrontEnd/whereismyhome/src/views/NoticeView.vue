@@ -18,7 +18,7 @@ import http from "@/util/http-common";
 export default {
   data() {
     return {
-      perPage: 15,
+      perPage: 7,
       currentPage: 1,
       notices: []
     }
@@ -46,7 +46,7 @@ export default {
         }
       })
     },writeNotice() {
-      this.$router.push("/write")
+      this.$router.push("/notice/write")
     }
   },
 }
