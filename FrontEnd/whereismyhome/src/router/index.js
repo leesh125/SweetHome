@@ -52,6 +52,11 @@ const routes = [
     name: 'noticeUpdate',
     component: () => import(/* webpackChunkName: "about" */ '../views/NoticeUpdateView.vue'),
   },
+  {
+    path: '/profile',
+    name: 'profile',
+    component: () => import(/* webpackChunkName: "about" */ '../views/UserProfile.vue'),
+  },
 ]
 
 const router = new VueRouter({
