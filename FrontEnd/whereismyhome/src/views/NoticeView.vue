@@ -1,102 +1,58 @@
 <template>
   <div class="overflow-auto">
-
+    <a class="write-a" @click="writeNotice">
+      <button class="bn54">
+        <span class="bn54span">공지등록</span>
+      </button>
+    </a>
     <!-- <p class="mt-3">Current Page: {{ currentPage }}</p> -->
     <h1 class="h1-notice">Notice</h1>
-    <b-table id="my-table" :items="items" :per-page="perPage" :current-page="currentPage" @row-clicked="rowClick"></b-table>
+    <b-table id="my-table" :items="notices" :per-page="perPage" :current-page="currentPage" @row-clicked="rowClick"></b-table>
     <b-pagination v-model="currentPage" :total-rows="rows" :per-page="perPage" aria-controls="my-table"></b-pagination>
   </div>
 </template>
 
 <script>
+import http from "@/util/http-common";
+
 export default {
   data() {
     return {
       perPage: 15,
       currentPage: 1,
-      items: [
-        { id: 1, first_name: 'Fred', last_name: 'Flintstone' },
-        { id: 2, first_name: 'Wilma', last_name: 'Flintstone' },
-        { id: 3, first_name: 'Barney', last_name: 'Rubble' },
-        { id: 4, first_name: 'Betty', last_name: 'Rubble' },
-        { id: 5, first_name: 'Pebbles', last_name: 'Flintstone' },
-        { id: 6, first_name: 'Bamm Bamm', last_name: 'Rubble' },
-        { id: 7, first_name: 'The Great', last_name: 'Gazzoo' },
-        { id: 8, first_name: 'Rockhead', last_name: 'Slate' },
-        { id: 9, first_name: 'Pearl', last_name: 'Slaghoople' },
-        { id: 10, first_name: 'Pearl', last_name: 'Slaghoople' },
-        { id: 11, first_name: 'Fred', last_name: 'Flintstone' },
-        { id: 12, first_name: 'Wilma', last_name: 'Flintstone' },
-        { id: 13, first_name: 'Barney', last_name: 'Rubble' },
-        { id: 14, first_name: 'Betty', last_name: 'Rubble' },
-        { id: 15, first_name: 'Pebbles', last_name: 'Flintstone' },
-        { id: 16, first_name: 'Bamm Bamm', last_name: 'Rubble' },
-        { id: 17, first_name: 'The Great', last_name: 'Gazzoo' },
-        { id: 18, first_name: 'Rockhead', last_name: 'Slate' },
-        { id: 19, first_name: 'Pearl', last_name: 'Slaghoople' },
-        { id: 1, first_name: 'Fred', last_name: 'Flintstone' },
-        { id: 2, first_name: 'Wilma', last_name: 'Flintstone' },
-        { id: 3, first_name: 'Barney', last_name: 'Rubble' },
-        { id: 4, first_name: 'Betty', last_name: 'Rubble' },
-        { id: 5, first_name: 'Pebbles', last_name: 'Flintstone' },
-        { id: 6, first_name: 'Bamm Bamm', last_name: 'Rubble' },
-        { id: 7, first_name: 'The Great', last_name: 'Gazzoo' },
-        { id: 8, first_name: 'Rockhead', last_name: 'Slate' },
-        { id: 9, first_name: 'Pearl', last_name: 'Slaghoople' },
-        { id: 10, first_name: 'Pearl', last_name: 'Slaghoople' },
-        { id: 11, first_name: 'Fred', last_name: 'Flintstone' },
-        { id: 12, first_name: 'Wilma', last_name: 'Flintstone' },
-        { id: 13, first_name: 'Barney', last_name: 'Rubble' },
-        { id: 14, first_name: 'Betty', last_name: 'Rubble' },
-        { id: 15, first_name: 'Pebbles', last_name: 'Flintstone' },
-        { id: 16, first_name: 'Bamm Bamm', last_name: 'Rubble' },
-        { id: 17, first_name: 'The Great', last_name: 'Gazzoo' },
-        { id: 18, first_name: 'Rockhead', last_name: 'Slate' },
-        { id: 19, first_name: 'Pearl', last_name: 'Slaghoople' },
-        { id: 1, first_name: 'Fred', last_name: 'Flintstone' },
-        { id: 2, first_name: 'Wilma', last_name: 'Flintstone' },
-        { id: 3, first_name: 'Barney', last_name: 'Rubble' },
-        { id: 4, first_name: 'Betty', last_name: 'Rubble' },
-        { id: 5, first_name: 'Pebbles', last_name: 'Flintstone' },
-        { id: 6, first_name: 'Bamm Bamm', last_name: 'Rubble' },
-        { id: 7, first_name: 'The Great', last_name: 'Gazzoo' },
-        { id: 8, first_name: 'Rockhead', last_name: 'Slate' },
-        { id: 9, first_name: 'Pearl', last_name: 'Slaghoople' },
-        { id: 10, first_name: 'Pearl', last_name: 'Slaghoople' },
-        { id: 11, first_name: 'Fred', last_name: 'Flintstone' },
-        { id: 12, first_name: 'Wilma', last_name: 'Flintstone' },
-        { id: 13, first_name: 'Barney', last_name: 'Rubble' },
-        { id: 14, first_name: 'Betty', last_name: 'Rubble' },
-        { id: 15, first_name: 'Pebbles', last_name: 'Flintstone' },
-        { id: 16, first_name: 'Bamm Bamm', last_name: 'Rubble' },
-        { id: 17, first_name: 'The Great', last_name: 'Gazzoo' },
-        { id: 18, first_name: 'Rockhead', last_name: 'Slate' },
-        { id: 19, first_name: 'Pearl', last_name: 'Slaghoople' }
-      ]
+      notices: []
     }
   },
   computed: {
     rows() {
-      return this.items.length
+      return this.notices.length
     }
   },
+  created() {
+    http.get(`/notices`).then(({ data }) => this.notices = data);
+  },
   methods: {
-    rowClick(item) {
-      console.log(item);
+    rowClick(notice) {
+      console.log(notice);
+      http.get(`/notices/${notice.no}`);
       this.$router.push({
         name: 'detail',
         params: {
-          no: item.id,
-          first_name: item.first_name,
-          last_name: item.last_name,
+          no: notice.no,
+          subject: notice.subject,
+          content: notice.content,
+          createDate: notice.createDate,
+          hit: notice.hit
         }
       })
+    },writeNotice() {
+      this.$router.push("/write")
     }
   },
 }
 </script>
 
-<style>
+<style >
 .h1-notice{
   padding: 50px 0 30px;
   text-transform: uppercase;
@@ -146,5 +102,94 @@ export default {
   transition-duration: 0.5s;
   color: white;
   background-color: #42b983;
+}
+
+tr > th:nth-child(3), tr>td:nth-child(3) {
+  display: none !important;
+}
+
+.write-a{
+  position: absolute;
+  right: 39px;
+  top: 50px;
+  text-decoration: none;
+}
+
+.bn54 {
+  position: relative;
+  outline: none;
+  text-decoration: none;
+  border-radius: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  text-transform: uppercase;
+  height: 45px;
+  width: 130px;
+  opacity: 1;
+  background-color: #42B983;
+  border: 1px solid #349b6d;
+}
+
+.bn54 .bn54span {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: 0.7px;
+}
+
+.bn54:hover {
+  animation: bn54rotate 0.7s ease-in-out both;
+}
+
+.bn54:hover .bn54span {
+  animation: bn54storm 0.7s ease-in-out both;
+  animation-delay: 0.06s;
+}
+
+@keyframes bn54rotate {
+  0% {
+    transform: rotate(0deg) translate3d(0, 0, 0);
+  }
+
+  25% {
+    transform: rotate(3deg) translate3d(0, 0, 0);
+  }
+
+  50% {
+    transform: rotate(-3deg) translate3d(0, 0, 0);
+  }
+
+  75% {
+    transform: rotate(1deg) translate3d(0, 0, 0);
+  }
+
+  100% {
+    transform: rotate(0deg) translate3d(0, 0, 0);
+  }
+}
+
+@keyframes bn54storm {
+  0% {
+    transform: translate3d(0, 0, 0) translateZ(0);
+  }
+
+  25% {
+    transform: translate3d(4px, 0, 0) translateZ(0);
+  }
+
+  50% {
+    transform: translate3d(-3px, 0, 0) translateZ(0);
+  }
+
+  75% {
+    transform: translate3d(2px, 0, 0) translateZ(0);
+  }
+
+  100% {
+    transform: translate3d(0, 0, 0) translateZ(0);
+  }
 }
 </style>

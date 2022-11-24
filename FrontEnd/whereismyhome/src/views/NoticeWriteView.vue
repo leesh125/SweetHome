@@ -1,69 +1,38 @@
 <template>
-  <!-- <div>
-    <h1>name: {{ $route.params.no }}</h1>
-    <h1>first_name: {{ $route.params.first_name }}</h1>
-    <h1>last_name: {{ $route.params.last_name }}</h1>
-    <hr>
-    <h1>no: {{ no }}</h1>
-    <h1>first_name: {{ first_name }}</h1>
-    <h1>last_name: {{ last_name }}</h1>
-  </div> -->
   <div class="container">
     <div class="row">
         <div class="col-md-8">
             <div class="media g-mb-30 media-comment">
-                <div class="hit">조회수 : {{hit}}</div>
-                <div class="noticeNo">공지번호 : {{no}}</div>
+                <div class="notice-head">공지등록</div>
                 <img class="d-flex g-width-50 g-height-50 rounded-circle g-mt-3 g-mr-15" src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Image Description">
                 <div class="media-body u-shadow-v18 g-bg-secondary g-pa-30">
                   <div class="g-mb-15">
                     <div style="display: flex;">
                       <h5 class="h5 g-color-gray-dark-v1 mb-0">제목: </h5>
-                      <input type="text" :value="subject" class="title" disabled/>
+                      <input type="text" v-model="subject" class="title"/>
                     </div>
                   </div>
                   <div class="g-mb-15">
                     <div style="display: flex;">
                       <h5 class="h5 g-color-gray-dark-v1 mb-0">내용: </h5>
-                      <textarea class="textarea" :value="content" disabled/>
-                    </div>
-                  </div>
-                  <div class="g-mb-15">
-                    <div style="display: flex;">
-                      <h5 class="h5 g-color-gray-dark-v1 mb-0">작성일: </h5>
-                      <input type="text" :value="createDate" class="title" disabled />
+                      <textarea class="textarea" v-model="content"/>
                     </div>
                   </div>
 
                   <ul class="list-inline d-sm-flex my-0">
-                    <li class="list-inline-item g-mr-20">
-                      <a class="u-link-v5 g-color-gray-dark-v4 g-color-primary--hover" style="text-decoration: none;">
-                        <div style="display: flex; align-items: center;">
-                          <label class="like">
-                            <input class="diffInput" type="checkbox" />
-                            <div class="hearth" v-on:click="like"/>
-                          </label> 
-                          <span class="likeCnt">{{count}}</span>
+                    <li class="list-inline-item ml-auto">
+                      <div id="arrow_1" class="arrow-wrapper" @click="toNoticeList">
+                        <div class="arrow arrow--left">
+                          <span></span>
                         </div>
-                      </a>
+                        <div class="back">이전으로</div>
+                      </div>
                     </li>
-                    <div class="crud-notice">
-                      <a style="text-decoration: none;" @click="updateNotice">
-                        <button class="bn54" style="background-color: rgb(255 191 0); border: 1px solid rgb(255 191 0);">
-                          <span class="bn54span">수정하기</span>
-                        </button>
-                      </a>
-                      <a style="text-decoration: none;" @click="deleteNotice">
-                        <button class="bn54" style="background-color: #dc3545; border: 1px solid #dc3545;">
-                          <span class="bn54span">삭제하기</span>
-                        </button>
-                      </a>
-                      <a style="text-decoration: none;" @click="toNoticeList">
-                        <button class="bn54">
-                          <span class="bn54span">목록으로</span>
-                        </button>
-                      </a>
-                    </div>
+                    <a style="text-decoration: none;" >
+                      <button class="bn54" @click="registerNotice">
+                        <span class="bn54span">등록하기</span>
+                      </button>
+                    </a>
                   </ul>
                 </div>
             </div>
@@ -75,80 +44,25 @@
 
 <script>
 import http from "@/util/http-common";
-import Vue from 'vue';
-import VueSweetalert2 from 'vue-sweetalert2';
-import 'sweetalert2/dist/sweetalert2.min.css';
-
-Vue.use(VueSweetalert2);
 
 export default {
     name: 'noticeDetail',
     data() {
       return {
-        count: 170,
-        flag: false,
+        subject: '',
+        content: '',
       };
     },
-    props: {
-        no: {
-          type: Number,
-          default : 0
-        },
-        subject: {
-            type: String,
-            default : ''
-        },
-        content: {
-            type: String,
-            default : ''
-        },
-        createDate: {
-          type: String,
-          default: ''
-        },
-        hit: {
-          type: Number,
-          default: 0
-        },
-  },
+    
   methods: {
-    like() {
-      if (this.flag) {
-        this.flag = false;  
-      } else {
-        this.flag = true;   
-      }
-    },
     toNoticeList() {
-      this.$router.push(`/notice`);
+      this.$router.go(-1);
     },
-    deleteNotice() {
-      this.$swal({
-        title: "정말 삭제하시겠습니까?",
-        text: "한 번 삭제하면 되돌릴 수 없습니다.",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Yes, delete it!'
-      })
-        .then((result) => {
-          if (result.isConfirmed) {
-          http.delete(`/notices/${this.no}`)
-          .then(
-            this.$swal({
-              icon: 'success',
-              title: `게시글이 삭제되었습니다`,
-            }))
-          .then(this.$router.push('/notice'));
-        }
-      });
-    },
-    updateNotice() {
-      this.$router.push({
-        name: 'noticeUpdate',
-        query: {no: this.no}
-      });
+    registerNotice() {
+      http.post(`/notices`, {
+        subject: this.subject,
+        content: this.content,
+      }).then(({ data }) => console.log(data)).then(this.$router.push(`/notice`));
     }
   },
   watch: {
@@ -166,13 +80,16 @@ export default {
 <style scoped>
 @import "../assets/fonts/font-awesome-4.7.0/css/font-awesome.min.css";
 
-.noticeNo {
+.notice-head {
   position: absolute;
-  left: 60px;
-  top: 10px;
+  left: 42%;
+  top: 24px;
   font-size: 20px;
   font-weight: 600;
-  color: #42B983;
+  color: #ffffff;
+  background-color: #42B983;
+  padding: 10px 43px;
+  border-radius: 49%;
 }
 
 .hit{
@@ -340,7 +257,7 @@ input:checked+.hearth {
   font-family: Verdana, Geneva, Tahoma, sans-serif;
   color: #ffffff;
   font-size: 16px;
-  font-weight: 600;
+  font-weight: 500;
   letter-spacing: 0.7px;
 }
 
@@ -401,11 +318,83 @@ input:checked+.hearth {
   align-items: center;
 }
 
-.crud-notice{
-  display: flex;
-}
+ .arrow-wrapper {
+   display: flex;
+   margin-left: 10px;
+   align-items: center;
+ }
 
-.crud-notice > a{
-  margin: 0 5px;
-}
+ .arrow-wrapper:hover h1 {
+   opacity: 1;
+ }
+
+ /*************** * Arrow 1 ***************/
+ #arrow_1 .arrow {
+   cursor: pointer;
+   display: block;
+   width: 21.216407355px;
+   height: 42.43281471px;
+   position: relative;
+ }
+
+ 
+ #arrow_1 .arrow span,
+ #arrow_1 .arrow:before,
+ #arrow_1 .arrow:after {
+  background: #42B983;
+  content: '';
+  display: block;
+  width: 20px;
+  height: 3px;
+  position: absolute;
+  top: calc(50% - (2px / 2));
+ }
+
+ #arrow_1 .arrow:before {
+   transform: rotate(-45deg);
+ }
+
+ #arrow_1 .arrow:after {
+   transform: rotate(45deg);
+ }
+
+ #arrow_1 .arrow span {
+   width: 0;
+ }
+
+ #arrow_1 .arrow:hover span {
+   width: 30.42px;
+ }
+
+ #arrow_1 .arrow.arrow--left span,
+ #arrow_1 .arrow.arrow--left:before,
+ #arrow_1 .arrow.arrow--left:after {
+   left: 0;
+   transform-origin: left 50%;
+ }
+
+ #arrow_1 .arrow.arrow--left:before,
+ #arrow_1 .arrow.arrow--left:after {
+   transition: left 0.3s 0.05s;
+ }
+
+ #arrow_1 .arrow.arrow--left span {
+   transition: width 0.3s, left 0.3s 0.05s;
+ }
+
+ #arrow_1 .arrow.arrow--left:hover span,
+ #arrow_1 .arrow.arrow--left:hover:before,
+ #arrow_1 .arrow.arrow--left:hover:after,
+ .back:hover
+ {
+   left: -21.216407355px;
+ }
+
+ .back{
+  font-size: 18px;
+  margin-left: 10px;
+  font-weight: 500;
+  color: #349b6d;
+  line-height: 2;
+ }
 </style>
