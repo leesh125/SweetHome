@@ -65,6 +65,7 @@
 	</resultMap>
 	
 	<resultMap type="HouseInfoDto" id="hosueInfoWithDealMap">
+		<id column="aptCode" property="aptCode"/>
 		<result column="aptName" property="aptName"/>
 		<result column="dongCode" property="dongCode"/>
 		<result column="dongName" property="dongName"/>
@@ -87,4 +88,18 @@
 		where i.aptCode = #{aptCode}
 		order by d.no desc
 	</select>
+	
+	<insert id="insertLike" parameterType="map">
+		insert into likes values(#{userId}, #{aptCode})
+	</insert>
+	
+	<delete id="deleteLike" parameterType="map">
+		delete from likes where userId = #{userId} and aptCode = #{aptCode}
+	</delete>
+	
+	<select id="getLikeNumberByAptCode" parameterType="string" resultType="int">
+		select count(*) from likes where aptCode = #{aptCode}
+	</select>
+	
+	
 </mapper>

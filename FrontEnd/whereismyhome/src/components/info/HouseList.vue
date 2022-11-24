@@ -7,7 +7,7 @@
       <template v-else>
         <b-list-group-item
           v-for="house in houseList"
-          :key="house.dongCode"
+          :key="house.aptCode"
           href="#"
           class="flex-column align-items-start"
         >
@@ -53,7 +53,6 @@ export default {
   methods: {
     openDetail(event) {
       console.log(event.target.id);
-
       this.$emit("openHouseDetail", event.target.id);
     },
   },
