@@ -54,7 +54,8 @@
 	</select>
 	
 	<resultMap type="HouseDealDto" id="houseDealMap">
-		<id column="no" property="no"/>
+		<id column="no" property="no"/>		
+		<result column="aptCode" property="aptCode"/>
 		<result column="dealAmount" property="dealAmount"/>
 		<result column="dealYear" property="dealYear"/>
 		<result column="dealMonth" property="dealMonth"/>
@@ -68,14 +69,22 @@
 		<result column="dongCode" property="dongCode"/>
 		<result column="dongName" property="dongName"/>
 		<result column="jibun" property="jibun"/>
+	    <association property="baseAddressDto" javaType="com.ssafy.whereismyhome.dto.BaseAddressDto">
+			<result column="sidoName" property="sidoName"/>
+			<result column="gugunName" property="gugunName"/>
+			<result column="dongName" property="dongName"/>	    
+	    </association>
 		<collection property="houseDealDtos" resultMap="houseDealMap"/>
 	</resultMap>
 	
 	<select id="selectHouseDealInfo" parameterType="string" resultMap="hosueInfoWithDealMap">
-		select i.aptCode, i.aptName, i.dongCode, i.dongName, i.jibun, d.no, d.dealAmount, d.dealYear, d.dealMonth, d.dealDay, d.area, d.floor
+		select i.aptCode, i.aptName, i.dongCode, i.dongName, i.jibun, b.sidoName,b.gugunName,b.dongName,d.no, d.aptCode, d.dealAmount, d.dealYear, d.dealMonth, d.dealDay, d.area, d.floor
 		from houseinfo i
 		left join housedeal d
 		on i.aptCode = d.aptCode
+		left join baseaddress b
+		on i.dongCode = b.dongCode
 		where i.aptCode = #{aptCode}
+		order by d.no desc
 	</select>
 </mapper>

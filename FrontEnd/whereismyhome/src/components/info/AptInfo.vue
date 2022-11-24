@@ -3,11 +3,11 @@
     <apt-search></apt-search>
     <interest-area></interest-area>
     <div>
-      <house-list v-if="!detailOpen"></house-list>
+      <house-list v-if="!detailOpen" @openHouseDetail="openHouseDetail"></house-list>
       <house-detail
         v-else
         @closeDetail="closeDetail"
-        :openHouseDetail="openHouseDetail"
+        :aptDetail="aptDetail"
       ></house-detail>
     </div>
   </div>
@@ -32,6 +32,7 @@ export default {
   data() {
     return {
       detailOpen: false,
+      aptDetail : {}
     };
   },
   created() {},
@@ -41,11 +42,12 @@ export default {
     closeDetail() {
       this.detailOpen = false;
     },
+
     openHouseDetail(aptCode) {
       console.log(aptCode);
       this.detailOpen = true;
       http.get(`/houses/${aptCode}/dealInfos`).then(({ data }) => {
-        console.log(data);
+        this.aptDetail = data[0];
       });
     },
   },

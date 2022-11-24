@@ -16,4 +16,8 @@ public interface HouseRepository {
 	HouseInfoDto selectHouseInfoByAptCode(String aptCode);
 
 	List<HouseDealDto> selectHouseDealInfo(String aptCode);
+
+	Integer insertLike(String aptCode, String userId);
+
+	Integer deleteLike(String aptCode, String userId);
 }

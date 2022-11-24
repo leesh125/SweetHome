@@ -52,6 +52,8 @@ export default {
 
   methods: {
     openDetail(event) {
+      console.log(event.target.id);
+
       this.$emit("openHouseDetail", event.target.id);
     },
   },
