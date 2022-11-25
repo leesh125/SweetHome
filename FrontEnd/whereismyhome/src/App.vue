@@ -21,6 +21,12 @@
       </div>
     </nav>
     <router-view/>
+    <footer id="sticky-footer" class="flex-shrink-0 py-4 bg-dark text-white-50">
+      <div class="container text-center">
+        <small>Copyright &copy; Your Website</small>
+      </div>
+    </footer>
+
   </div>
 </template>
 
@@ -391,5 +397,11 @@ body {
   top: 0;
   right: 0;
   font-size: 14px;
+}
+
+#sticky-footer {
+  position: absolute;
+  width: 100%;
+  bottom: 0;
 }
 </style>

@@ -18,7 +18,7 @@ import http from "@/util/http-common";
 export default {
   data() {
     return {
-      perPage: 7,
+      perPage: 15,
       currentPage: 1,
       notices: []
     }
