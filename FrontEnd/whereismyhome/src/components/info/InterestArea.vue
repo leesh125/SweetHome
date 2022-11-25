@@ -56,8 +56,10 @@ export default {
     },
   },
   computed: {
-    interests() {
-      return this.$store.state.interests;
+    interests: {
+      get() {
+        return this.$store.state.interests;
+      },
     },
   },
   watch: {
@@ -69,7 +71,7 @@ export default {
 </script>
 
 <style scoped>
-.row>select {
+.row > select {
   background: #fff;
   color: #42b983;
   padding: 5px;
