@@ -46,7 +46,7 @@ export default {
         }
       })
     },writeNotice() {
-      this.$router.push("/write")
+      this.$router.push("/notice/write")
     }
   },
 }

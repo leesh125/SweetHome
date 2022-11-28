@@ -21,13 +21,12 @@ export default {
 <style scoped>
 .main {
   width: 100%;
-  height: 700px;
+  height: 790px;
   margin: 0 auto;
-  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
-    url(../assets/img/home.jpg);
+  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(http://127.0.0.1:9000/img/home.ea4c7b30.jpg);
   background-repeat: no-repeat;
   background-position: center;
-  background-size: 1920px 720px;
+  background-size: 1920px 790px;
 }
 
 .inner-div {

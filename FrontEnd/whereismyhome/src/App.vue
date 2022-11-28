@@ -21,12 +21,23 @@
       </div>
     </nav>
     <router-view/>
+    <footer id="sticky-footer" class="flex-shrink-0 py-4 bg-dark text-white-50">
+      <div class="container text-center">
+        <small>Copyright &copy; Your Website</small>
+      </div>
+    </footer>
+
   </div>
 </template>
 
 <script>
+import Vue from 'vue';
+import VueSweetalert2 from 'vue-sweetalert2';
+import 'sweetalert2/dist/sweetalert2.min.css';
+
 import http from "@/util/http-common";
 
+Vue.use(VueSweetalert2);
 export default {
   name: 'FrontEndApp',
 
@@ -94,6 +105,10 @@ export default {
       http.get(`/users/logout`)
         .then(this.$store.commit("logout"))
         .then(this.$store.commit("setIsLogin",false));
+      this.$swal({
+				icon: 'success',
+				title: `다음에 봐요 :)`,
+			});  
     },
 
   },
@@ -382,5 +397,11 @@ body {
   top: 0;
   right: 0;
   font-size: 14px;
+}
+
+#sticky-footer {
+  position: absolute;
+  width: 100%;
+  bottom: 0;
 }
 </style>
