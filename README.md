@@ -106,7 +106,7 @@ API | Vue | SpringBoot |  Java   |  JavaScript   |  MySQL   |   MyBatis  |
 
 ![04_메인페이지검색](./assets/4_메인페이지검색.gif)
 
-✅ Commons Email을 활용한 회원 인증을 걸친 후, 임시 비밀번호를 사용자 이메일로 전송
+✅ 메인 페이지에서 아파트 검색, 아파트 매매 페이지로 이동
 
 <br><br>
 
@@ -114,7 +114,7 @@ API | Vue | SpringBoot |  Java   |  JavaScript   |  MySQL   |   MyBatis  |
 
 ![05_키워드로검색](./assets/5_키워드로검색.gif)
 
-✅ Commons Email을 활용한 회원 인증을 걸친 후, 임시 비밀번호를 사용자 이메일로 전송
+✅ 선택한 지역에서 아파트 이름 검색
 
 <br><br>
 
@@ -123,7 +123,7 @@ API | Vue | SpringBoot |  Java   |  JavaScript   |  MySQL   |   MyBatis  |
 
 ![06_거래내역조회](./assets/6_거래내역조회.gif)
 
-✅ Commons Email을 활용한 회원 인증을 걸친 후, 임시 비밀번호를 사용자 이메일로 전송
+✅ 아파트별 상세 거래내역 조회와 좋아요 기능
 
 <br><br>
 
@@ -131,7 +131,7 @@ API | Vue | SpringBoot |  Java   |  JavaScript   |  MySQL   |   MyBatis  |
 
 ![07_관심지역](./assets/7_관심지역.gif)
 
-✅ Commons Email을 활용한 회원 인증을 걸친 후, 임시 비밀번호를 사용자 이메일로 전송
+✅ 현재 검색중인 지역을 관심지역에 추가, 선택시 검색 지역 자동 변경
 
 <br><br>
 
