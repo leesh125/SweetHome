@@ -89,7 +89,7 @@ API | Vue | SpringBoot |  Java   |  JavaScript   |   MyBatis  |
 
 ![02_로그인](./assets/2_로그인.gif)
 
-✅ Commons Email을 활용한 회원 인증을 걸친 후, 임시 비밀번호를 사용자 이메일로 전송
+✅ Commons Email을 활용한 회원 인증을 거침. 인증에 실패하면 다시 로그인, 성공하면 사용자 이름과 함께 환영합니다 메시지.
 
 <br><br>
 
@@ -97,7 +97,7 @@ API | Vue | SpringBoot |  Java   |  JavaScript   |   MyBatis  |
 
 ![03_내정보확인](./assets/3_내정보확인.gif)
 
-✅ Commons Email을 활용한 회원 인증을 걸친 후, 임시 비밀번호를 사용자 이메일로 전송
+✅ 로그인한 사용자의 정보를 
 
 <br><br>
 ---
@@ -141,7 +141,7 @@ API | Vue | SpringBoot |  Java   |  JavaScript   |   MyBatis  |
 
 ![09_공지사항수정](./assets/9_공지사항수정.gif)
 
-✅ Commons Email을 활용한 회원 인증을 걸친 후, 임시 비밀번호를 사용자 이메일로 전송
+✅ 공지사항 상세 조회 버튼을 클릭하여 수정, 공지번호는 수정 불가
 
 <br><br>
 
@@ -149,7 +149,7 @@ API | Vue | SpringBoot |  Java   |  JavaScript   |   MyBatis  |
 
 ![10_공지사항삭제](./assets/10_공지사항삭제.gif)
 
-✅ Commons Email을 활용한 회원 인증을 걸친 후, 임시 비밀번호를 사용자 이메일로 전송
+✅ 공지사항 삭제 실시
 
 <br><br>
 
@@ -159,7 +159,7 @@ API | Vue | SpringBoot |  Java   |  JavaScript   |   MyBatis  |
 
 ![11_공지사항등록](./assets/11_공지사항등록.gif)
 
-✅ Commons Email을 활용한 회원 인증을 걸친 후, 임시 비밀번호를 사용자 이메일로 전송
+✅ 공지사항 등록 실시
 
 <br><br>
 
@@ -167,7 +167,7 @@ API | Vue | SpringBoot |  Java   |  JavaScript   |   MyBatis  |
 
 ![12_로그아웃](./assets/12_로그아웃.gif)
 
-✅ Commons Email을 활용한 회원 인증을 걸친 후, 임시 비밀번호를 사용자 이메일로 전송
+✅ 로그인 한 유저를 로그아웃, Vue Store와 Session에 있는 값들을 초기화 함
 
 <br><br>
 <!-- Stack Icon Refernces -->
