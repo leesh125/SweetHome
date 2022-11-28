@@ -20,13 +20,10 @@
 
 ## 기술 스택
 
-## 기술 스택
+API | Vue | SpringBoot |  Java   |  JavaScript   |   MyBatis  |
+| :--------: | :--------: | :--------: | :------: | :-----: | :------: |
+|    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/de/Kakao_CI_yellow.svg/1200px-Kakao_CI_yellow.svg.png" alt="vue" width="80" height="40" />    |    <img src="https://www.svgrepo.com/show/354528/vue.svg" alt="vue" width="60" height="60" />    |   <img src="https://img1.daumcdn.net/thumb/R800x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FmJKEh%2FbtqH2ea5K9D%2F8NpyE8MoHMTGDUMC55gYf0%2Fimg.png" alt="springboot" width="60" height="60" />    | <img src="https://www.svgrepo.com/show/184143/java.svg" alt="android" width="60" height="60" /> | <img src="https://www.svgrepo.com/show/355081/js.svg" alt="js" width="60" height="60" /> | <img src="https://plugins.jetbrains.com/files/13905/199136/icon/pluginIcon.svg" alt="js" width="60" height="60" />
 
-| JavaScript | TypeScript |  React   |  Node   |
-| :--------: | :--------: | :------: | :-----: |
-|   ![js]    |   ![ts]    | ![react] | ![node] |
-
-</p>
 
 ###### <br><br>
 
@@ -44,18 +41,18 @@
     <tr>
       <td rowspan="2">이석현</td>
       <td rowspan="2">팀장</td>
-      <td>Front-End 전반</td>
+      <td>회원, 공지사항 도메인</td>
     </tr>
     <tr>
-      <td>Back-End (Rest API 설계, SQL/Spring 디버깅, 이미지 업로드, 매물 조회 게시판 카테고리/키워드 검색 등 필요 API 추가, DB 테이블 수정 등)</td>
+      <td>회원 and 공지 Rest API 설계, MyBatis sql 작성, 전체화면 설계/구현, Vue 코드 클라이언트/서버 통신</td>
     </tr>
     <tr>
       <td rowspan="2">이윤환</td>
       <td rowspan="2">팀원</td>
-      <td>Back-End 전반</td>
+      <td>아파트 도메인</td>
     </tr>
     <tr>
-      <td>Front-End (메인 페이지 검색창 수정 및 매물 조회 게시판 디자인)</td>
+      <td>아파트 Rest API 설계, MyBatis sql 작성, Vue 코드 실거래가 조회 클라이언트/서버 통신</td>
     </tr>
   </tbody>
 </table>
@@ -64,13 +61,13 @@
 
 ## **ERD(ER Diagram)**
 
-![db설계](./assets/db설계.png)
+![ERD](./assets/img/erd.png)
 
 <br><br>
 
 ## UML(Usecase Diagram)
 
-![기능정의서](./assets/기능정의서.png)
+<img src="./assets/img/uml.png" alt="js" width="900" height="600" />
 
 <br><br>
 
@@ -175,7 +172,7 @@
 <br><br>
 <!-- Stack Icon Refernces -->
 
-[js]: /images/stack/javascript.svg
-[ts]: /images/stack/typescript.svg
+[vue]: ./assets/img/vue.svg
+[springboot]: https://destatic.blob.core.windows.net/images/spring-boot-logo.png
 [react]: /images/stack/react.svg
 [node]: /images/stack/node.svg
