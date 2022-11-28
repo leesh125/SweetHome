@@ -20,9 +20,9 @@
 
 ## 기술 스택
 
-API | Vue | SpringBoot |  Java   |  JavaScript   |   MyBatis  |
-| :--------: | :--------: | :--------: | :------: | :-----: | :------: |
-|    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/de/Kakao_CI_yellow.svg/1200px-Kakao_CI_yellow.svg.png" alt="vue" width="80" height="40" />    |    <img src="https://www.svgrepo.com/show/354528/vue.svg" alt="vue" width="60" height="60" />    |   <img src="https://img1.daumcdn.net/thumb/R800x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FmJKEh%2FbtqH2ea5K9D%2F8NpyE8MoHMTGDUMC55gYf0%2Fimg.png" alt="springboot" width="60" height="60" />    | <img src="https://www.svgrepo.com/show/184143/java.svg" alt="android" width="60" height="60" /> | <img src="https://www.svgrepo.com/show/355081/js.svg" alt="js" width="60" height="60" /> | <img src="https://plugins.jetbrains.com/files/13905/199136/icon/pluginIcon.svg" alt="js" width="60" height="60" />
+API | Vue | SpringBoot |  Java   |  JavaScript   |  MySQL   |   MyBatis  |
+| :--------: | :--------: | :--------: | :------: | :-----: | :------: | :------: |
+|    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/de/Kakao_CI_yellow.svg/1200px-Kakao_CI_yellow.svg.png" alt="vue" width="80" height="40" />    |    <img src="https://www.svgrepo.com/show/354528/vue.svg" alt="vue" width="60" height="60" />    |   <img src="https://img1.daumcdn.net/thumb/R800x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FmJKEh%2FbtqH2ea5K9D%2F8NpyE8MoHMTGDUMC55gYf0%2Fimg.png" alt="springboot" width="60" height="60" />    | <img src="https://www.svgrepo.com/show/184143/java.svg" alt="android" width="60" height="60" /> | <img src="https://www.svgrepo.com/show/355081/js.svg" alt="js" width="60" height="60" /> | <img src="https://cdn.cdnlogo.com/logos/m/10/mysql.svg" alt="js" width="60" height="60" /> | <img src="https://plugins.jetbrains.com/files/13905/199136/icon/pluginIcon.svg" alt="js" width="60" height="60" />
 
 
 ###### <br><br>
