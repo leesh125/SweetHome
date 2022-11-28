@@ -320,7 +320,7 @@
 
 <!-- Stack Icon Refernces -->
 
-[js]: /images/stack/javascript.svg
+[js]: ./assets/img/vue.svg
 [ts]: /images/stack/typescript.svg
 [react]: /images/stack/react.svg
 [node]: /images/stack/node.svg
