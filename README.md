@@ -97,7 +97,7 @@ API | Vue | SpringBoot |  Java   |  JavaScript   |  MySQL   |   MyBatis  |
 
 ![03_내정보확인](./assets/3_내정보확인.gif)
 
-✅ 로그인한 사용자의 정보를 
+✅ 로그인한 사용자의 정보를 확인
 
 <br><br>
 ---
