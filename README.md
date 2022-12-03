@@ -39,8 +39,8 @@ API | Vue | SpringBoot |  Java   |  JavaScript   |  MySQL   |   MyBatis  |
   </thead>
   <tbody>
     <tr>
-      <td rowspan="2">이석현</td>
-      <td rowspan="2">팀장</td>
+      <td rowspan="2" width="80">이석현</td>
+      <td rowspan="2" width="80">팀장</td>
       <td>회원, 공지사항 도메인</td>
     </tr>
     <tr>
